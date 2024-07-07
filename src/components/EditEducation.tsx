@@ -67,7 +67,7 @@ const EditEducation = () => {
     setSelectedEducationItem(null);
   };
   return (
-    <div className="flex h-auto w-full flex-col md:flex-row border">
+    <div className="flex h-auto w-full flex-col md:flex-row">
       <div className="border-r p-6 w-full">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold">Education</h2>

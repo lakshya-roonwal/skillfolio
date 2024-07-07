@@ -6,6 +6,10 @@ import { PDFViewer } from "@react-pdf/renderer";
 import MyDocument from "./MyDocument";
 import EditEducation from "./EditEducation";
 import EditExperience from "./EditExperience";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import EditProjects from "./EditProjects";
+import EditSkills from "./EditSkills";
+import { Button } from "./ui/button";
 
 const BuilderPage = () => {
   const [resumeData, setResumeData] = useState({
@@ -95,7 +99,7 @@ const BuilderPage = () => {
           "Visualized GitHub data to show collaboration",
           "Used Celery and Redis for asynchronous tasks",
         ],
-         technologies:["mongdob","node","React Js"]
+        technologies: ["mongdob", "node", "React Js"],
       },
       {
         title: "MyKanban",
@@ -104,7 +108,7 @@ const BuilderPage = () => {
           "Implemented drag-and-drop functionality",
           "Used Firebase for backend services and authentication",
         ],
-         technologies:["mongdob","node","React Js"]
+        technologies: ["mongdob", "node", "React Js"],
       },
     ],
     skills: {
@@ -143,84 +147,113 @@ const BuilderPage = () => {
   };
   return (
     <div className="w-full h-screen flex">
-      <div className="w-1/2 h-full bg-gray-200 p-8">
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <div className="flex flex-col gap-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Name</Label>
-                <Input
-                  id="name"
-                  value={resumeData.name}
-                  onChange={(e) => handleInputChange("name", e.target.value)}
-                />
+      <div className="w-1/2 h-full p-8">
+        <ScrollArea className="h-full">
+
+          <div className="flex h-auto w-full justify-between px-6">
+            <h2 className="text-2xl font-bold">Your Resume</h2>
+            <Button>Save</Button>
+          </div>
+
+          <div className="flex h-auto w-full flex-col md:flex-row">
+            <div className="flex-1 p-6">
+              <div className="py-2">
+                <h2 className="mb-4 text-2xl font-bold">Basics</h2>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="role">Role</Label>
-                <Input
-                  id="role"
-                  value={resumeData.role}
-                  onChange={(e) => handleInputChange("role", e.target.value)}
-                />
+              <div className="flex flex-col gap-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Name</Label>
+                    <Input
+                      id="name"
+                      value={resumeData.name}
+                      onChange={(e) =>
+                        handleInputChange("name", e.target.value)
+                      }
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="role">Role</Label>
+                    <Input
+                      id="role"
+                      value={resumeData.role}
+                      onChange={(e) =>
+                        handleInputChange("role", e.target.value)
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="location">Location</Label>
+                    <Input
+                      id="location"
+                      value={resumeData.location}
+                      onChange={(e) =>
+                        handleInputChange("location", e.target.value)
+                      }
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={resumeData.email}
+                      onChange={(e) =>
+                        handleInputChange("email", e.target.value)
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Phone</Label>
+                    <Input
+                      id="phone"
+                      value={resumeData.phone}
+                      onChange={(e) =>
+                        handleInputChange("phone", e.target.value)
+                      }
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="linkedin">LinkedIn</Label>
+                    <Input
+                      id="linkedin"
+                      value={resumeData.linkedin}
+                      onChange={(e) =>
+                        handleInputChange("linkedin", e.target.value)
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="github">GitHub</Label>
+                  <Input
+                    id="github"
+                    value={resumeData.github}
+                    onChange={(e) =>
+                      handleInputChange("github", e.target.value)
+                    }
+                  />
+                </div>
               </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="location">Location</Label>
-                <Input
-                  id="location"
-                  value={resumeData.location}
-                  onChange={(e) =>
-                    handleInputChange("location", e.target.value)
-                  }
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={resumeData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="phone">Phone</Label>
-                <Input
-                  id="phone"
-                  value={resumeData.phone}
-                  onChange={(e) => handleInputChange("phone", e.target.value)}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="linkedin">LinkedIn</Label>
-                <Input
-                  id="linkedin"
-                  value={resumeData.linkedin}
-                  onChange={(e) =>
-                    handleInputChange("linkedin", e.target.value)
-                  }
-                />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="github">GitHub</Label>
-              <Input
-                id="github"
-                value={resumeData.github}
-                onChange={(e) => handleInputChange("github", e.target.value)}
-              />
             </div>
           </div>
-        </div>
 
-        {/* Eudcation Section */}
-        <EditEducation/>
+          {/* Eudcation Section */}
+          <EditEducation />
 
-        {/* Experiance */}
-        <EditExperience/>
+          {/* Experiance */}
+          <EditExperience />
+
+          {/* Projects */}
+          <EditProjects />
+
+          {/* Skills */}
+          <EditSkills />
+        </ScrollArea>
       </div>
       <div className="w-1/2 h-full bg-gray-400">
         <PDFViewer className="w-full h-full">
