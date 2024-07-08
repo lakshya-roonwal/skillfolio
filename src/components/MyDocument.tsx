@@ -39,11 +39,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: "IBMPBold",
     fontWeight: "bold",
-  },
-  role: {
-    fontSize: 12,
-    fontFamily: "IBMPLight",
-    marginBottom: 8,
+    marginBottom:4,
   },
   contactInfo: {
     flexDirection: "row",
@@ -120,30 +116,34 @@ const styles = StyleSheet.create({
   },
 });
 
-const MyDocument = ({ data }) => (
-  <Document>
+const MyDocument = ({ data,setLoading }) => (
+
+  <Document onRender={()=>{setLoading(false);console.log("Loading")}}>
     <Page size="A4" style={styles.page}>
       <View style={styles.header}>
-        <Text style={styles.name}>{data.name}</Text>
-        <Text style={styles.role}>{data.role}</Text>
+        <Text style={styles.name}>{data.basics.name}</Text>
         <View style={styles.contactInfo}>
           <View style={styles.contactItem}>
             <Image style={styles.icon} src="/assets/icons/email.png" />
-            <Text style={styles.contactText}>{data.email}</Text>
+            <Text style={styles.contactText}>{data.basics.location}</Text>
+          </View>
+          <View style={styles.contactItem}>
+            <Image style={styles.icon} src="/assets/icons/email.png" />
+            <Text style={styles.contactText}>{data.basics.email}</Text>
           </View>
           <View style={styles.contactItem}>
             <Image style={styles.icon} src="/assets/icons/phone.png" />
-            <Text style={styles.contactText}>{data.phone}</Text>
+            <Text style={styles.contactText}>{data.basics.phone}</Text>
           </View>
           <View style={styles.contactItem}>
             <Image style={styles.icon} src="/assets/icons/linkedin.png" />
-            <Link style={styles.contactText} src={data.linkedin}>
+            <Link style={styles.contactText} src={data.basics.linkedin}>
               LinkedIn
             </Link>
           </View>
           <View style={styles.contactItem}>
             <Image style={styles.icon} src="/assets/icons/github.png" />
-            <Link style={styles.contactText} src={data.github}>
+            <Link style={styles.contactText} src={data.basics.github}>
               GitHub
             </Link>
           </View>
@@ -154,7 +154,7 @@ const MyDocument = ({ data }) => (
         {data.education.map((edu, index) => (
           <View key={index} style={styles.subsection}>
             <View style={styles.dateLocation}>
-              <Text style={styles.itemTitle}>{edu.institution}</Text>
+              <Text style={styles.itemTitle}>{edu.college}</Text>
               <Text style={[styles.dateLocation, styles.rightAlign]}>
                 {edu.startDate} - {edu.endDate}
               </Text>

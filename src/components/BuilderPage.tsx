@@ -10,45 +10,62 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import EditProjects from "./EditProjects";
 import EditSkills from "./EditSkills";
 import { Button } from "./ui/button";
+import Spinner from "./Spinner";
 
 const BuilderPage = () => {
-  const [resumeData, setResumeData] = useState({
-    name: "",
-    role: "",
-    location: "",
-    email: "",
-    phone: "",
-    linkedin: "",
-    github: "",
+  const [loading, setLoading] = useState(true);
+  const [basicResumeData, setBasicResumeData] = useState({
+    name: "Lakshya runwal",
+    location: "Rajasthan, India",
+    email: "lakshyaroonwal@gmail.com",
+    phone: "7877669925",
+    linkedin: "https://something.com",
+    github: "https://github.com/lakshya-roonwal",
   });
+  const [educationItems, setEducationItems] = useState([
+    {
+      id: 1,
+      college: "University of California, Berkeley",
+      degree: "Bachelor of Science in Computer Science",
+      startDate: "July 2018",
+      endDate: "June 2021",
+      location:"India"
+    },
+    {
+      id: 2,
+      college: "Massachusetts Institute of Technology",
+      degree: "Master of Science in Electrical Engineering",
+      startDate: "July 2018",
+      endDate: "June 2021",
+      location:"India"
+    },
+  ]);
+
+  const handleSaveResumeData = () => {
+    setLoading(true);
+    setResumeData((prevResumeData) => ({
+      ...prevResumeData,
+      education:educationItems,
+      basics: basicResumeData,
+    }));
+  };
+
   const handleInputChange = (field, value) => {
-    setResumeData((prevData) => ({
+    setBasicResumeData((prevData) => ({
       ...prevData,
       [field]: value,
     }));
   };
-  const data = {
-    name: "John Doe",
-    email: "john.doe@example.com",
-    phone: "123-456-7890",
-    linkedin: "https://linkedin.com/in/johndoe",
-    github: "https://github.com/johndoe",
-    education: [
-      {
-        institution: "Southwestern University",
-        degree: "Bachelor of Arts in Computer Science, Minor in Business",
-        location: "Georgetown, TX",
-        startDate: "Aug. 2018",
-        endDate: "May 2021",
-      },
-      {
-        institution: "Blinn College",
-        degree: "Associate's in Liberal Arts",
-        location: "Bryan, TX",
-        startDate: "Aug. 2014",
-        endDate: "May 2018",
-      },
-    ],
+  const [resumeData, setResumeData] = useState({
+    basics: {
+      name: basicResumeData.name,
+      email: basicResumeData.email,
+      phone: basicResumeData.phone,
+      location: basicResumeData.location,
+      linkedin: basicResumeData.linkedin,
+      github: basicResumeData.github,
+    },
+    education:educationItems,
     experience: [
       {
         title: "Undergraduate Research Assistant",
@@ -144,15 +161,14 @@ const BuilderPage = () => {
       ],
       Libraries: ["pandas", "NumPy", "Matplotlib"],
     },
-  };
+  });
   return (
     <div className="w-full h-screen flex">
       <div className="w-1/2 h-full p-8">
         <ScrollArea className="h-full">
-
           <div className="flex h-auto w-full justify-between px-6">
             <h2 className="text-2xl font-bold">Your Resume</h2>
-            <Button>Save</Button>
+            <Button onClick={handleSaveResumeData}>Save</Button>
           </div>
 
           <div className="flex h-auto w-full flex-col md:flex-row">
@@ -166,19 +182,20 @@ const BuilderPage = () => {
                     <Label htmlFor="name">Name</Label>
                     <Input
                       id="name"
-                      value={resumeData.name}
+                      value={basicResumeData.name}
                       onChange={(e) =>
                         handleInputChange("name", e.target.value)
                       }
                     />
                   </div>
+
                   <div className="space-y-2">
-                    <Label htmlFor="role">Role</Label>
+                    <Label htmlFor="phone">Phone</Label>
                     <Input
-                      id="role"
-                      value={resumeData.role}
+                      id="phone"
+                      value={basicResumeData.phone}
                       onChange={(e) =>
-                        handleInputChange("role", e.target.value)
+                        handleInputChange("phone", e.target.value)
                       }
                     />
                   </div>
@@ -188,7 +205,7 @@ const BuilderPage = () => {
                     <Label htmlFor="location">Location</Label>
                     <Input
                       id="location"
-                      value={resumeData.location}
+                      value={basicResumeData.location}
                       onChange={(e) =>
                         handleInputChange("location", e.target.value)
                       }
@@ -199,7 +216,7 @@ const BuilderPage = () => {
                     <Input
                       id="email"
                       type="email"
-                      value={resumeData.email}
+                      value={basicResumeData.email}
                       onChange={(e) =>
                         handleInputChange("email", e.target.value)
                       }
@@ -208,12 +225,12 @@ const BuilderPage = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Phone</Label>
+                    <Label htmlFor="github">GitHub</Label>
                     <Input
-                      id="phone"
-                      value={resumeData.phone}
+                      id="github"
+                      value={basicResumeData.github}
                       onChange={(e) =>
-                        handleInputChange("phone", e.target.value)
+                        handleInputChange("github", e.target.value)
                       }
                     />
                   </div>
@@ -221,29 +238,19 @@ const BuilderPage = () => {
                     <Label htmlFor="linkedin">LinkedIn</Label>
                     <Input
                       id="linkedin"
-                      value={resumeData.linkedin}
+                      value={basicResumeData.linkedin}
                       onChange={(e) =>
                         handleInputChange("linkedin", e.target.value)
                       }
                     />
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="github">GitHub</Label>
-                  <Input
-                    id="github"
-                    value={resumeData.github}
-                    onChange={(e) =>
-                      handleInputChange("github", e.target.value)
-                    }
-                  />
-                </div>
               </div>
             </div>
           </div>
 
           {/* Eudcation Section */}
-          <EditEducation />
+          <EditEducation educationItems={educationItems} setEducationItems={setEducationItems}/>
 
           {/* Experiance */}
           <EditExperience />
@@ -255,9 +262,14 @@ const BuilderPage = () => {
           <EditSkills />
         </ScrollArea>
       </div>
-      <div className="w-1/2 h-full bg-gray-400">
+      <div className="w-1/2 h-full relative flex items-center justify-center bg-gray-400">
+        {loading ? (
+          <div className="absolute top-[50%] left-[50%]">
+            <Spinner />
+          </div>
+        ) : null}
         <PDFViewer className="w-full h-full">
-          <MyDocument data={data} />
+          <MyDocument data={resumeData} setLoading={setLoading} />
         </PDFViewer>
       </div>
     </div>
