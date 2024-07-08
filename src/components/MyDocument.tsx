@@ -24,7 +24,7 @@ Font.register({
 
 const styles = StyleSheet.create({
   page: {
-    padding: 20,
+    padding: 15,
     fontSize: 11,
     color: "#000",
     fontFamily: "IBMPReg",
@@ -174,7 +174,7 @@ const MyDocument = ({ data,setLoading }) => (
         {data.experience.map((exp, index) => (
           <View key={index} style={styles.subsection}>
             <View style={styles.dateLocation}>
-              <Text style={styles.itemTitle}>{exp.title}</Text>
+              <Text style={styles.itemTitle}>{exp.role}</Text>
               <Text style={[styles.dateLocation, styles.rightAlign]}>
                 {exp.startDate} - {exp.endDate}
               </Text>
@@ -206,7 +206,7 @@ const MyDocument = ({ data,setLoading }) => (
                 <Text style={styles.itemSubtitle}>{project.technologies.join(", ")}</Text>
               </View>
               <Text style={[styles.dateLocation, styles.rightAlign]}>
-                {project.date}
+                {project.startDate} - {project.endDate}
               </Text>
             </View>
             <View style={styles.itemDetails}>

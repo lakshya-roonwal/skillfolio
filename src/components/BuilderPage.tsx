@@ -40,11 +40,103 @@ const BuilderPage = () => {
       location:"India"
     },
   ]);
+  const [experienceItems, setExperienceItems] = useState([
+    {
+      id: 1,
+      role: "Software Engineer",
+      company: "Acme Inc",
+      startDate: "2020-06-01",
+      endDate: "2022-12-31",
+      location: "San Francisco, CA",
+      details: [
+        "Worked on the development of new features for the company's main product.",
+        "Collaborated with the design team to create user-friendly interfaces.",
+      ],
+    },
+    {
+      id: 2,
+      role: "Frontend Developer",
+      company: "Globex Corporation",
+      startDate: "2018-01-01",
+      endDate: "2020-05-31",
+      location: "New York, NY",
+      details: [
+        "Implemented responsive web designs for various client projects.",
+        "Optimized web applications for maximum speed and scalability.",
+      ],
+    },
+  ]);
+  const [projectItems, setProjectItems] = useState([
+    {
+      id: 1,
+      title: "Gitlytics",
+      company: "Acme Inc",
+      startDate: "July 2014",
+      endDate: "June 2020",
+      location: "Remote",
+      details: [
+        "Developed a full-stack web application using Flask serving a REST API with React as the frontend",
+        "Implemented GitHub OAuth to get data from user's repositories",
+        "Visualized GitHub data to show collaboration",
+        "Used Celery and Redis for asynchronous tasks",
+      ],
+      technologies: ["mongodb", "node", "React Js"],
+    },
+    {
+      id: 2,
+      title: "MyKanban",
+      company: "Globex Corporation",
+      startDate: "July 2014",
+      endDate: "June 2020",
+      location: "New York, NY",
+      details: [
+        "Developed a Kanban board application using React and Redux",
+        "Implemented drag-and-drop functionality",
+        "Used Firebase for backend services and authentication",
+      ],
+      technologies: ["mongodb", "node", "React Js"],
+    },
+  ]);
+  const [skills, setSkills] = useState({
+    Languages: [
+      "Java",
+      "Python",
+      "C/C++",
+      "SQL (Postgres)",
+      "JavaScript",
+      "HTML/CSS",
+      "R",
+    ],
+    Frameworks: [
+      "React",
+      "Node.js",
+      "Flask",
+      "JUnit",
+      "WordPress",
+      "Material-UI",
+      "FastAPI",
+    ],
+    "Developer Tools": [
+      "Git",
+      "Docker",
+      "TravisCI",
+      "Google Cloud Platform",
+      "VS Code",
+      "Visual Studio",
+      "PyCharm",
+      "IntelliJ",
+      "Eclipse",
+    ],
+    Libraries: ["pandas", "NumPy", "Matplotlib"],
+  });
 
   const handleSaveResumeData = () => {
     setLoading(true);
     setResumeData((prevResumeData) => ({
       ...prevResumeData,
+      skills:skills,
+      projects:projectItems,
+      experience:experienceItems,
       education:educationItems,
       basics: basicResumeData,
     }));
@@ -66,101 +158,9 @@ const BuilderPage = () => {
       github: basicResumeData.github,
     },
     education:educationItems,
-    experience: [
-      {
-        title: "Undergraduate Research Assistant",
-        company: "Texas A&M University",
-        location: "College Station, TX",
-        startDate: "June 2020",
-        endDate: "Present",
-        details: [
-          "Developed a REST API using FastAPI and PostgreSQL to store data from learning management systems",
-          "Developed a full-stack web application using Flask, React, PostgreSQL, and Docker to analyze GitHub data",
-          "Explored ways to visualize GitHub collaboration in a classroom setting",
-        ],
-      },
-      {
-        title: "Information Technology Support Specialist",
-        company: "Southwestern University",
-        location: "Georgetown, TX",
-        startDate: "Sep. 2018",
-        endDate: "Present",
-        details: [
-          "Communicate with managers to set up campus computers used on campus",
-          "Assess and troubleshoot computer problems brought by students, faculty, and staff",
-          "Maintain upkeep of computers, classroom equipment, and 200 printers across campus",
-        ],
-      },
-      {
-        title: "Artificial Intelligence Research Assistant",
-        company: "Southwestern University",
-        location: "Georgetown, TX",
-        startDate: "May 2019",
-        endDate: "July 2019",
-        details: [
-          "Explored methods to generate video game dungeons based off of The Legend of Zelda",
-          "Developed a game in Java to test the generated dungeons",
-          "Contributed 50K+ lines of code to an established codebase via Git",
-          "Conducted a human subject study to determine which video game dungeon generation technique is enjoyable",
-          "Wrote an 8-page paper and gave multiple presentations on-campus",
-          "Presented virtually to the World Conference on Computational Intelligence",
-        ],
-      },
-    ],
-    projects: [
-      {
-        title: "Gitlytics",
-        details: [
-          "Developed a full-stack web application using Flask serving a REST API with React as the frontend",
-          "Implemented GitHub OAuth to get data from user's repositories",
-          "Visualized GitHub data to show collaboration",
-          "Used Celery and Redis for asynchronous tasks",
-        ],
-        technologies: ["mongdob", "node", "React Js"],
-      },
-      {
-        title: "MyKanban",
-        details: [
-          "Developed a Kanban board application using React and Redux",
-          "Implemented drag-and-drop functionality",
-          "Used Firebase for backend services and authentication",
-        ],
-        technologies: ["mongdob", "node", "React Js"],
-      },
-    ],
-    skills: {
-      Languages: [
-        "Java",
-        "Python",
-        "C/C++",
-        "SQL (Postgres)",
-        "JavaScript",
-        "HTML/CSS",
-        "R",
-      ],
-      Frameworks: [
-        "React",
-        "Node.js",
-        "Flask",
-        "JUnit",
-        "WordPress",
-        "Material-UI",
-        "FastAPI",
-      ],
-      "Developer Tools": [
-        "Git",
-        "Docker",
-        "TravisCI",
-        "Google Cloud Platform",
-        "VS Code",
-        "TravisCI",
-        "Visual Studio",
-        "PyCharm",
-        "IntelliJ",
-        "Eclipse",
-      ],
-      Libraries: ["pandas", "NumPy", "Matplotlib"],
-    },
+    experience:experienceItems,
+    projects:projectItems,
+    skills:skills,
   });
   return (
     <div className="w-full h-screen flex">
@@ -253,13 +253,13 @@ const BuilderPage = () => {
           <EditEducation educationItems={educationItems} setEducationItems={setEducationItems}/>
 
           {/* Experiance */}
-          <EditExperience />
+          <EditExperience experienceItems={experienceItems} setExperienceItems={setExperienceItems}/>
 
           {/* Projects */}
-          <EditProjects />
+          <EditProjects projectItems={projectItems} setProjectItems={setProjectItems}/>
 
           {/* Skills */}
-          <EditSkills />
+          <EditSkills skills={skills} setSkills={setSkills}/>
         </ScrollArea>
       </div>
       <div className="w-1/2 h-full relative flex items-center justify-center bg-gray-400">

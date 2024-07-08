@@ -1,67 +1,100 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
+import { useState } from "react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea"; // Import Textarea
 
-const EditProjects = () => {
-  const [projectItems, setProjectItems] = useState([
-    {
-      id: 1,
-      title: "Project One",
-      company: "Acme Inc",
-      startDate: "2021-01-01",
-      endDate: "2021-12-31",
-      location: "Remote",
-    },
-    {
-      id: 2,
-      title: "Project Two",
-      company: "Globex Corporation",
-      startDate: "2020-01-01",
-      endDate: "2020-12-31",
-      location: "New York, NY",
-    },
-  ])
-  
-  const [isAddProjectDialogOpen, setIsAddProjectDialogOpen] = useState(false)
-  const [isEditProjectDialogOpen, setIsEditProjectDialogOpen] = useState(false)
-  const [isDeleteProjectDialogOpen, setIsDeleteProjectDialogOpen] = useState(false)
-  const [selectedProjectItem, setSelectedProjectItem] = useState(null)
+const EditProjects = ({projectItems, setProjectItems}) => {
+
+  const [isAddProjectDialogOpen, setIsAddProjectDialogOpen] = useState(false);
+  const [isEditProjectDialogOpen, setIsEditProjectDialogOpen] = useState(false);
+  const [isDeleteProjectDialogOpen, setIsDeleteProjectDialogOpen] = useState(false);
+  const [selectedProjectItem, setSelectedProjectItem] = useState(null);
+  const [formState, setFormState] = useState({
+    title: "",
+    company: "",
+    startDate: "",
+    endDate: "",
+    details: "",
+    technologies: "",
+  });
 
   const handleAddProject = () => {
-    setIsAddProjectDialogOpen(true)
-  }
+    setFormState({
+      title: "",
+      company: "",
+      startDate: "",
+      endDate: "",
+      details: "",
+      technologies: "",
+    });
+    setIsAddProjectDialogOpen(true);
+  };
 
   const handleEditProject = (item) => {
-    setSelectedProjectItem(item)
-    setIsEditProjectDialogOpen(true)
-  }
+    setSelectedProjectItem(item);
+    setFormState({
+      title: item.title,
+      company: item.company,
+      startDate: item.startDate,
+      endDate: item.endDate,
+      details: item.details.join("\n") || "", // Convert array to string with new lines
+      technologies: item.technologies.join(", ") || "", // Convert array to comma-separated string
+    });
+    setIsEditProjectDialogOpen(true);
+  };
 
   const handleDeleteProject = (item) => {
-    setSelectedProjectItem(item)
-    setIsDeleteProjectDialogOpen(true)
-  }
+    setSelectedProjectItem(item);
+    setIsDeleteProjectDialogOpen(true);
+  };
 
-  const handleSaveProject = (newItem) => {
+  const handleSaveProject = () => {
+    const newItem = {
+      id: selectedProjectItem ? selectedProjectItem.id : Date.now(),
+      title: formState.title,
+      company: formState.company,
+      startDate: formState.startDate,
+      endDate: formState.endDate,
+      details: formState.details.split("\n").filter((detail) => detail.trim() !== ""), // Split by new lines and filter empty strings
+      technologies: formState.technologies.split(",").map((tech) => tech.trim()).filter((tech) => tech), // Convert comma-separated string to array
+    };
+
     if (selectedProjectItem) {
-      setProjectItems(projectItems.map((item) => (item.id === selectedProjectItem.id ? newItem : item)))
+      setProjectItems(
+        projectItems.map((item) => (item.id === selectedProjectItem.id ? newItem : item))
+      );
     } else {
-      setProjectItems([...projectItems, { ...newItem, id: Date.now() }])
+      setProjectItems([...projectItems, newItem]);
     }
-    setIsAddProjectDialogOpen(false)
-    setIsEditProjectDialogOpen(false)
-    setSelectedProjectItem(null)
-  }
+
+    setIsAddProjectDialogOpen(false);
+    setIsEditProjectDialogOpen(false);
+    setSelectedProjectItem(null);
+  };
 
   const handleDeleteConfirm = () => {
-    setProjectItems(projectItems.filter((item) => item.id !== selectedProjectItem.id))
-    setIsDeleteProjectDialogOpen(false)
-    setSelectedProjectItem(null)
-  }
+    setProjectItems(
+      projectItems.filter((item) => item.id !== selectedProjectItem.id)
+    );
+    setIsDeleteProjectDialogOpen(false);
+    setSelectedProjectItem(null);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormState((prev) => ({ ...prev, [name]: value }));
+  };
 
   return (
     <div className="flex h-auto w-full flex-col md:flex-row">
@@ -80,10 +113,18 @@ const EditProjects = () => {
                 <p className="text-muted-foreground">{item.company}</p>
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={() => handleEditProject(item)}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleEditProject(item)}
+                >
                   Edit
                 </Button>
-                <Button variant="destructive" size="sm" onClick={() => handleDeleteProject(item)}>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => handleDeleteProject(item)}
+                >
                   Delete
                 </Button>
               </div>
@@ -91,8 +132,12 @@ const EditProjects = () => {
           ))}
         </div>
       </div>
-      
-      <Dialog open={isAddProjectDialogOpen} onOpenChange={setIsAddProjectDialogOpen}>
+
+      {/* Add Project Dialog */}
+      <Dialog
+        open={isAddProjectDialogOpen}
+        onOpenChange={setIsAddProjectDialogOpen}
+      >
         <DialogContent className="sm:max-w-[420px]">
           <DialogHeader>
             <DialogTitle>Add Project</DialogTitle>
@@ -100,35 +145,82 @@ const EditProjects = () => {
           <div className="space-y-4">
             <div className="grid gap-2">
               <Label htmlFor="title">Title</Label>
-              <Input id="title" placeholder="Enter project title" />
+              <Input
+                id="title"
+                name="title"
+                value={formState.title}
+                placeholder="Enter project title"
+                onChange={handleInputChange}
+              />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="company">Company</Label>
-              <Input id="company" placeholder="Enter company name" />
+              <Input
+                id="company"
+                name="company"
+                value={formState.company}
+                placeholder="Enter company name"
+                onChange={handleInputChange}
+              />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="startDate">Start Date</Label>
-              <Input id="startDate" type="date" />
+              <Input
+                id="startDate"
+                name="startDate"
+                type="text"
+                value={formState.startDate}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="endDate">End Date</Label>
-              <Input id="endDate" type="date" />
+              <Input
+                id="endDate"
+                name="endDate"
+                type="text"
+                value={formState.endDate}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="location">Location</Label>
-              <Input id="location" placeholder="Enter location" />
+              <Label htmlFor="details">Details</Label>
+              <Textarea
+                id="details"
+                name="details"
+                value={formState.details}
+                placeholder="Enter details separated by new lines"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="technologies">Technologies</Label>
+              <Input
+                id="technologies"
+                name="technologies"
+                value={formState.technologies}
+                placeholder="Enter technologies separated by commas"
+                onChange={handleInputChange}
+              />
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsAddProjectDialogOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setIsAddProjectDialogOpen(false)}
+            >
               Cancel
             </Button>
-            <Button onClick={(values) => handleSaveProject(values)}>Save</Button>
+            <Button onClick={handleSaveProject}>Save</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      
-      <Dialog open={isEditProjectDialogOpen} onOpenChange={setIsEditProjectDialogOpen}>
+
+      {/* Edit Project Dialog */}
+      <Dialog
+        open={isEditProjectDialogOpen}
+        onOpenChange={setIsEditProjectDialogOpen}
+      >
         <DialogContent className="sm:max-w-[420px]">
           <DialogHeader>
             <DialogTitle>Edit Project</DialogTitle>
@@ -136,74 +228,102 @@ const EditProjects = () => {
           <div className="space-y-4">
             <div className="grid gap-2">
               <Label htmlFor="title">Title</Label>
-              <Input id="title" placeholder="Enter project title" defaultValue={selectedProjectItem?.title} />
+              <Input
+                id="title"
+                name="title"
+                value={formState.title}
+                placeholder="Enter project title"
+                onChange={handleInputChange}
+              />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="company">Company</Label>
-              <Input id="company" placeholder="Enter company name" defaultValue={selectedProjectItem?.company} />
+              <Input
+                id="company"
+                name="company"
+                value={formState.company}
+                placeholder="Enter company name"
+                onChange={handleInputChange}
+              />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="startDate">Start Date</Label>
-              <Input id="startDate" type="date" defaultValue={selectedProjectItem?.startDate} />
+              <Input
+                id="startDate"
+                name="startDate"
+                type="text"
+                value={formState.startDate}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="endDate">End Date</Label>
-              <Input id="endDate" type="date" defaultValue={selectedProjectItem?.endDate} />
+              <Input
+                id="endDate"
+                name="endDate"
+                type="text"
+                value={formState.endDate}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="location">Location</Label>
-              <Input id="location" placeholder="Enter location" defaultValue={selectedProjectItem?.location} />
+              <Label htmlFor="details">Details</Label>
+              <Textarea
+                id="details"
+                name="details"
+                value={formState.details}
+                placeholder="Enter details separated by new lines"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="technologies">Technologies</Label>
+              <Input
+                id="technologies"
+                name="technologies"
+                value={formState.technologies}
+                placeholder="Enter technologies separated by commas"
+                onChange={handleInputChange}
+              />
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsEditProjectDialogOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setIsEditProjectDialogOpen(false)}
+            >
               Cancel
             </Button>
-            <Button
-              onClick={(values) =>
-                handleSaveProject({
-                  id: selectedProjectItem.id,
-                  title: values.title,
-                  company: values.company,
-                  startDate: values.startDate,
-                  endDate: values.endDate,
-                  location: values.location,
-                })
-              }
-            >
-              Save
-            </Button>
+            <Button onClick={handleSaveProject}>Save</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      
-      <Dialog open={isDeleteProjectDialogOpen} onOpenChange={setIsDeleteProjectDialogOpen}>
+
+      {/* Delete Project Confirmation Dialog */}
+      <Dialog
+        open={isDeleteProjectDialogOpen}
+        onOpenChange={setIsDeleteProjectDialogOpen}
+      >
         <DialogContent className="sm:max-w-[420px]">
           <DialogHeader>
-            <DialogTitle>Delete Project</DialogTitle>
+            <DialogTitle>Confirm Delete</DialogTitle>
           </DialogHeader>
-          <div>
-            <p>
-              Are you sure you want to delete{" "}
-              <span className="font-bold">
-                {selectedProjectItem?.title} at {selectedProjectItem?.company}
-              </span>
-              ?
-            </p>
-          </div>
+          <p>Are you sure you want to delete this project?</p>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsDeleteProjectDialogOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setIsDeleteProjectDialogOpen(false)}
+            >
               Cancel
             </Button>
-            <Button variant="destructive" onClick={handleDeleteConfirm}>
+            <Button onClick={handleDeleteConfirm} variant="destructive">
               Delete
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
-  )
-}
+  );
+};
 
-export default EditProjects
-    
+export default EditProjects;
