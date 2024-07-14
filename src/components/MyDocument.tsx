@@ -120,9 +120,9 @@ const MyDocument = ({ data,setLoading }) => (
 
   <Document onRender={()=>{setLoading(false);console.log("Loading")}}>
     <Page size="A4" style={styles.page}>
-      <View style={styles.header} debug>
-        <Text style={styles.name} debug>{data.basics.name}</Text>
-        <View style={styles.contactInfo} debug> 
+      <View style={styles.header} >
+        <Text style={styles.name}> {data.basics.name}</Text>
+        <View style={styles.contactInfo} > 
           <View style={styles.contactItem}>
             <Text style={styles.contactText}>{data.basics.location}</Text>
           </View>
@@ -145,17 +145,17 @@ const MyDocument = ({ data,setLoading }) => (
           </View>
         </View>
       </View>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Education</Text>
+      <View style={styles.section} debug>
+        <Text style={styles.sectionTitle} debug>Education</Text>
         {data.education.map((edu, index) => (
-          <View key={index} style={styles.subsection}>
-            <View style={styles.dateLocation}>
+          <View key={index} style={styles.subsection} debug>
+            <View style={styles.dateLocation} debug>
               <Text style={styles.itemTitle}>{edu.college}</Text>
               <Text style={[styles.dateLocation, styles.rightAlign]}>
                 {edu.startDate} - {edu.endDate}
               </Text>
             </View>
-            <View style={styles.dateLocation}>
+            <View style={styles.dateLocation} debug>
               <Text style={styles.itemSubtitle}>{edu.degree}</Text>
               <Text style={[styles.itemSubtitle, styles.rightAlign]}>
                 {edu.location}

@@ -42,20 +42,20 @@ const Resume = ({ data }) => {
       </header>
 
       <section style={{marginBottom:styles.sectionMarginBottom}}>
-        <h2 style={{fontSize:styles.sectionTitleFontSize}} className="text-lg font-medium border-b-2 border-black pb-1">
+        <h2 style={{fontSize:styles.sectionTitleFontSize}} className="text-lg font-medium border-b-[2px] border-black pb-[5.2px]">
           Education
         </h2>
         {data.education.map((edu, index) => (
           <div key={index} className="mb-2">
             <div className="flex justify-between items-end">
-              <span style={{fontSize:styles.itemTitleFontSize}} className="text-[16px] font-bold">{edu.college}</span>
+              <span style={{fontSize:styles.itemTitleFontSize}} className="leading-tight font-bold">{edu.college}</span>
               <span style={{fontSize:styles.normalTextFontSize}} className="text-right">
                 {edu.startDate} - {edu.endDate}
               </span>
             </div>
             <div className="flex justify-between items-end">
-              <span style={{fontSize:styles.itemSubTitleFontSize}} className="font-extralight  italic">{edu.degree}</span>
-              <span style={{fontSize:styles.itemSubTitleFontSize}} className="font-extralight  text-right italic">{edu.location}</span>
+              <span style={{fontSize:styles.itemSubTitleFontSize}} className="font-extralight leading-tight  italic">{edu.degree}</span>
+              <span style={{fontSize:styles.itemSubTitleFontSize}} className="font-extralight leading-tight text-right italic">{edu.location}</span>
             </div>
           </div>
         ))}
