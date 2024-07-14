@@ -93,11 +93,11 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   skillsContainer: {
-    flexDirection: "row",
+    flexDirection: "column",
     flexWrap: "wrap",
   },
   skillCategory: {
-    flexDirection: "row",
+    flexDirection: "column",
     marginBottom: 4,
   },
   skillCategoryTitle: {
@@ -120,23 +120,19 @@ const MyDocument = ({ data,setLoading }) => (
 
   <Document onRender={()=>{setLoading(false);console.log("Loading")}}>
     <Page size="A4" style={styles.page}>
-      <View style={styles.header}>
-        <Text style={styles.name}>{data.basics.name}</Text>
-        <View style={styles.contactInfo}>
+      <View style={styles.header} debug>
+        <Text style={styles.name} debug>{data.basics.name}</Text>
+        <View style={styles.contactInfo} debug> 
           <View style={styles.contactItem}>
-            <Image style={styles.icon} src="/assets/icons/email.png" />
             <Text style={styles.contactText}>{data.basics.location}</Text>
           </View>
           <View style={styles.contactItem}>
-            <Image style={styles.icon} src="/assets/icons/email.png" />
             <Text style={styles.contactText}>{data.basics.email}</Text>
           </View>
           <View style={styles.contactItem}>
-            <Image style={styles.icon} src="/assets/icons/phone.png" />
             <Text style={styles.contactText}>{data.basics.phone}</Text>
           </View>
           <View style={styles.contactItem}>
-            <Image style={styles.icon} src="/assets/icons/linkedin.png" />
             <Link style={styles.contactText} src={data.basics.linkedin}>
               LinkedIn
             </Link>
@@ -188,7 +184,7 @@ const MyDocument = ({ data,setLoading }) => (
             <View style={styles.itemDetails}>
               {exp.details.map((detail, i) => (
                 <Text key={i} style={styles.bulletPoint}>
-                  - {detail}
+                  • {detail}
                 </Text>
               ))}
             </View>
@@ -212,7 +208,7 @@ const MyDocument = ({ data,setLoading }) => (
             <View style={styles.itemDetails}>
               {project.details.map((detail, i) => (
                 <Text key={i} style={styles.bulletPoint}>
-                  - {detail}
+                  • {detail}
                 </Text>
               ))}
             </View>
