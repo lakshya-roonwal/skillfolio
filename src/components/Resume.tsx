@@ -68,18 +68,18 @@ const Resume = ({ data }) => {
         {data.experience.map((exp, index) => (
           <div key={index} className="mb-2">
             <div className="flex justify-between items-end">
-            <span style={{fontSize:styles.itemTitleFontSize}} className="text-[16px] font-bold">{exp.role}</span>
-            <span style={{fontSize:styles.normalTextFontSize}} className="text-right">
+            <span style={{fontSize:styles.itemTitleFontSize}} className="leading-tight font-bold">{exp.role}</span>
+            <span style={{fontSize:styles.normalTextFontSize}} className="leading-tight text-right">
                 {exp.startDate} - {exp.endDate}
               </span>
             </div>
             <div className="flex justify-between items-end">
-              <span style={{fontSize:styles.itemSubTitleFontSize}} className="font-extralight  italic">{exp.company}</span>
-              <span style={{fontSize:styles.itemSubTitleFontSize}} className="font-extralight  text-right italic">{exp.location}</span>
+              <span style={{fontSize:styles.itemSubTitleFontSize}} className="leading-tight font-extralight  italic">{exp.company}</span>
+              <span style={{fontSize:styles.itemSubTitleFontSize}} className="leading-tight font-extralight  text-right italic">{exp.location}</span>
             </div>
             <ul style={{fontSize:styles.normalTextFontSize}} className="list-disc list-inside mt-2 pl-4">
               {exp.details.map((detail, i) => (
-                <li key={i} className="text-sm">
+                <li key={i} className="leading-tight" style={{fontSize:styles.normalTextFontSize}}>
                   {detail}
                 </li>
               ))}
@@ -96,7 +96,7 @@ const Resume = ({ data }) => {
           <div key={index} className="mb-2">
             <div className="flex justify-between items-end">
               <div className="flex">
-              <span style={{fontSize:styles.itemTitleFontSize}} className="text-[16px] font-bold">{project.title} |</span>
+              <span style={{fontSize:styles.itemTitleFontSize}} className="font-bold">{project.title} |</span>
                 <span style={{fontSize:styles.itemSubTitleFontSize}}  className="font-extralight italic ml-1">
                   {project.technologies.join(", ")}
                 </span>
@@ -117,7 +117,7 @@ const Resume = ({ data }) => {
       </section>
 
       <section>
-      <h2 style={{fontSize:styles.sectionTitleFontSize}} className="text-lg font-medium border-b-2 border-black pb-1">
+      <h2 style={{fontSize:styles.sectionTitleFontSize}} className="font-medium border-b-2 border-black pb-1">
           Technical Skills
         </h2>
         {Object.entries(data.skills).map(([category, skills], index) => (

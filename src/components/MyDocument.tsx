@@ -168,20 +168,20 @@ const MyDocument = ({ data,setLoading }) => (
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Experience</Text>
         {data.experience.map((exp, index) => (
-          <View key={index} style={styles.subsection}>
-            <View style={styles.dateLocation}>
+          <View key={index} style={styles.subsection} debug>
+            <View style={styles.dateLocation} debug>
               <Text style={styles.itemTitle}>{exp.role}</Text>
               <Text style={[styles.dateLocation, styles.rightAlign]}>
                 {exp.startDate} - {exp.endDate}
               </Text>
             </View>
-            <View style={styles.dateLocation}>
+            <View style={styles.dateLocation} debug>
               <Text style={styles.itemSubtitle}>{exp.company}</Text>
               <Text style={[styles.itemSubtitle, styles.rightAlign]}>
                 {exp.location}
               </Text>
             </View>
-            <View style={styles.itemDetails}>
+            <View style={styles.itemDetails} debug>
               {exp.details.map((detail, i) => (
                 <Text key={i} style={styles.bulletPoint}>
                   • {detail}
