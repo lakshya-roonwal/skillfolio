@@ -1,4 +1,5 @@
-import React from "react";
+import { ResumeData } from "@/types/Resume.type";
+import React, { FC } from "react";
 
 
 const styles={
@@ -10,31 +11,36 @@ const styles={
   sectionMarginBottom:"5.2px",
 }
 
-const Resume = ({ data }) => {
+interface ResumeProps {
+  data:ResumeData  
+}
+
+
+const Resume: FC<ResumeProps> = ({data}) => {
   return (
     <div
       style={{ width: "21cm", height: "29.7cm",fontFamily:"IBM Plex Serif" }}
-      className={"p-[19.5px] bg-white text-black outline"}
+      className={"p-[26px] bg-white text-black outline  "}
     >
       <header className="flex flex-col items-center mb-[13px]">
         <h1 style={{fontSize:styles.nameFontSize}} className="font-bold tracking-tighter">{data.basics.name}</h1>
         <div className="flex justify-center text-[15.6px]">
-          <div className="flex items-center space-x-1">
-            <span style={{fontSize:styles.normalTextFontSize,marginLeft:"5.2px"}} className="leading-tight">{data.basics.location}</span>
+          <div className="flex items-center ml-[5.2px]">
+            <span style={{fontSize:styles.normalTextFontSize}} className="leading-tight">{data.basics.location}</span>
           </div>
-          <div className="flex items-center space-x-1">
-            <span style={{fontSize:styles.normalTextFontSize,marginLeft:"5.2px"}} className="leading-tight">{data.basics.email}</span>
+          <div className="flex items-center ml-[5.2px]">
+            <span style={{fontSize:styles.normalTextFontSize}} className="leading-tight">{data.basics.email}</span>
           </div>
-          <div className="flex items-center space-x-1">
-            <span style={{fontSize:styles.normalTextFontSize,marginLeft:"5.2px"}} className="leading-tight">{data.basics.phone}</span>
+          <div className="flex items-center ml-[5.2px]">
+            <span style={{fontSize:styles.normalTextFontSize}} className="leading-tight">{data.basics.phone}</span>
           </div>
-          <div className="flex items-center space-x-1">
-            <a style={{fontSize:styles.normalTextFontSize,marginLeft:"5.2px"}}  href={data.basics.linkedin} className="leading-tight">
+          <div className="flex items-center ml-[5.2px]">
+            <a style={{fontSize:styles.normalTextFontSize}}  href={data.basics.linkedin} className="leading-tight underline">
               LinkedIn
             </a>
           </div>
-          <div className="flex items-center space-x-1">
-            <a style={{fontSize:styles.normalTextFontSize,marginLeft:"5.2px"}}  href={data.basics.github} className="leading-tight">
+          <div className="flex items-center ml-[5.2px]">
+            <a style={{fontSize:styles.normalTextFontSize}}  href={data.basics.github} className="leading-tight underline">
               GitHub
             </a>
           </div>
@@ -116,7 +122,7 @@ const Resume = ({ data }) => {
         ))}
       </section>
 
-      <section>
+      <section className="px-[3.61px]">
       <h2 style={{fontSize:styles.sectionTitleFontSize}} className="font-medium border-b-2 border-black pb-1">
           Technical Skills
         </h2>
@@ -125,7 +131,7 @@ const Resume = ({ data }) => {
             <div className="flex items-center flex-wrap mb-[5.2px]">
               <span style={{fontSize:styles.normalTextFontSize}} className="leading-tight text-lg font-bold">{category}:</span>
               {skills.map((skill, skillIndex) => (
-                <span key={skillIndex} style={{fontSize:styles.normalTextFontSize}} className="ml-1">
+                <span key={skillIndex} style={{fontSize:styles.normalTextFontSize}} className="ml-[6px] font-normal">
                   {skill}
                   {skillIndex < skills.length - 1 && ","}
                 </span>

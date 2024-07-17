@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { ScrollArea } from "./ui/scroll-area";
 import { Button } from "./ui/button";
+import { Dispatch, SetStateAction } from "react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import EditEducation from "./Editer/EditEducation";
 import EditExperience from "./Editer/EditExperience";
 import EditProjects from "./Editer/EditProjects";
 import EditSkills from "./Editer/EditSkills";
+import { ResumeData } from "@/types/Resume.type";
 
-const Editor = ({ loading, setLoading, setResumeData }) => {
+interface EditorProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setResumeData: Dispatch<SetStateAction<ResumeData>>;
+}
+
+const Editor: FC<EditorProps> = ({ setLoading, setResumeData }) => {
   const [basicResumeData, setBasicResumeData] = useState({
     name: "",
     location: "",
@@ -29,7 +36,7 @@ const Editor = ({ loading, setLoading, setResumeData }) => {
 
   const handleSaveResumeData = () => {
     setLoading(true);
-    setResumeData((prevResumeData) => ({
+    setResumeData((prevResumeData: ResumeData) => ({
       ...prevResumeData,
       skills: skills,
       projects: projectItems,
@@ -38,7 +45,7 @@ const Editor = ({ loading, setLoading, setResumeData }) => {
       basics: basicResumeData,
     }));
   };
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (field: string, value: string | number) => {
     setBasicResumeData((prevData) => ({
       ...prevData,
       [field]: value,

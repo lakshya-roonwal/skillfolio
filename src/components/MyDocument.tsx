@@ -1,5 +1,6 @@
 import React from "react";
 import { Document, Page, Text, View, StyleSheet, Font, Link, Image } from "@react-pdf/renderer";
+import { ResumeData } from "@/types/Resume.type";
 
 Font.register({
   family: "IBMPBold",
@@ -50,6 +51,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   contactText: {
+    color:"#000",
     marginLeft: 4,
   },
   section: {
@@ -116,10 +118,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const MyDocument = ({ data,setLoading }) => (
+const MyDocument = ({ data }:{data:ResumeData}) => (
 
-  <Document onRender={()=>{setLoading(false);console.log("Loading")}}>
-    <Page size="A4" style={styles.page}>
+  <Document>
+    <Page size="A4" style={styles.page} >
       <View style={styles.header} >
         <Text style={styles.name}> {data.basics.name}</Text>
         <View style={styles.contactInfo} > 
@@ -216,12 +218,12 @@ const MyDocument = ({ data,setLoading }) => (
         ))}
       </View>
 
-      <View style={styles.section} debug>
+      <View style={styles.section} >
         <Text style={styles.sectionTitle} >Technical Skills</Text>
         <View style={styles.skillsContainer} >
           {Object.entries(data.skills).map(([category, skills], index) => (
-            <View key={index} style={styles.skillCategory} debug>
-            <View style={{flexDirection:"row",height:"auto",flexWrap:"wrap"}} debug>
+            <View key={index} style={styles.skillCategory} >
+            <View style={{flexDirection:"row",height:"auto",flexWrap:"wrap"}} >
               <Text style={styles.skillCategoryTitle}>{category}: </Text>
               {skills.map((skill)=>(
                   <Text style={styles.skillItem}>{skill}, </Text>

@@ -1,15 +1,20 @@
 "use client";
-import { PDFViewer } from "@react-pdf/renderer";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import { useState } from "react";
 import Editor from "./Editor";
-import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
+import {
+  TransformWrapper,
+  TransformComponent,
+  useControls,
+} from "react-zoom-pan-pinch";
 import MyDocument from "./MyDocument";
 import Spinner from "./Spinner";
 import Resume from "./Resume";
+import { Button } from "./ui/button";
+import { ResumeData } from "@/types/Resume.type";
 
 const BuilderPage = () => {
-  const [loading, setLoading] = useState(true);
-
+  const [loading, setLoading] = useState<boolean>(true);
 
   // const [resumeData, setResumeData] = useState({
   //   basics: {
@@ -30,7 +35,7 @@ const BuilderPage = () => {
   //     Libraries: [],
   //   },
   // });
-  const [resumeData, setResumeData] = useState({
+  const [resumeData, setResumeData] = useState<ResumeData>({
     basics: {
       name: "John Doe",
       email: "johndoe@example.com",
@@ -115,62 +120,70 @@ const BuilderPage = () => {
       Languages: ["JavaScript", "Python", "Java"],
       Frameworks: ["React", "Node.js", "Express"],
       "Developer Tools": ["Git", "Docker", "Webpack"],
-      Libraries: ["Redux", "GSAP", "Lodash"],
+      Libraries: [
+        "Redux",
+        "GSAP",
+        "Lodash",
+        "Redux",
+        "GSAP",
+        "Lodash",
+        "Redux",
+        "GSAP",
+        "Lodash",
+        "Redux",
+        "GSAP",
+        "Lodash",
+        "Redux",
+        "GSAP",
+        "Lodash",
+      ],
     },
   });
 
   return (
     <div className="w-full h-screen flex">
       <div className="w-1/2 h-full bg-gray-200">
-        {/* <Editor
-          loading={loading}
+        <PDFDownloadLink
+          document={<MyDocument data={resumeData} />}
+          fileName="resume.pdf"
+        >
+          {({ blob, url, loading, error }) => {
+            if (loading) {
+              setLoading(true);
+              return "Generating document...";
+            }
+            setLoading(false);
+            return (
+              <button className="p-2 bg-blue-500 text-white rounded">
+                Download PDF
+              </button>
+            );
+          }}
+        </PDFDownloadLink>
+        <Editor
           setLoading={setLoading}
           setResumeData={setResumeData}
-        /> */}
-        {/* <TransformWrapper
-              maxScale={2}
-              minScale={0.4}
-              initialScale={0.5}
-              limitToBounds={false}
-
-
-        >
-          <TransformComponent 
-                  wrapperClass="w-full !h-screen"
-        contentClass="grid items-start justify-start pointer-events-none"
-          >
-          </TransformComponent>
-
-        </TransformWrapper> */}
-            <Resume data={resumeData} />
+        />
       </div>
       <div className="w-1/2 h-full relative flex items-center justify-center bg-gray-400">
-        {loading ? (
-          <div className="absolute top-[50%] left-[50%]">
-            <Spinner />
-          </div>
-        ) : null}
-        <PDFViewer className="w-full h-full">
-          <MyDocument data={resumeData} setLoading={setLoading} />
-        </PDFViewer>
+        <TransformWrapper
+          maxScale={2}
+          minScale={0.4}
+          initialPositionX={100}
+          initialPositionY={15}
+          initialScale={0.72}
+          limitToBounds={false}
+        >
+          <TransformComponent
+            wrapperClass="w-full !h-screen"
+            contentClass="grid items-start justify-start pointer-events-none"
+          >
+            <Resume data={resumeData} />
+          </TransformComponent>
+        </TransformWrapper>
       </div>
-
-      {/* Testing */}
-      {/* <div className="w-1/2 h-full relative flex items-center justify-center bg-gray-400"></div> */}
     </div>
   );
 };
 
 export default BuilderPage;
-
-const Controls = () => {
-  const { zoomIn, zoomOut, resetTransform } = useControls();
-
-  return (
-    <div className="tools">
-      <button onClick={() => zoomIn()}>+</button>
-      <button onClick={() => zoomOut()}>-</button>
-      <button onClick={() => resetTransform()}>x</button>
-    </div>
-  );
-};
