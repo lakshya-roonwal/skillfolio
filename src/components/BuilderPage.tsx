@@ -46,24 +46,25 @@ const BuilderPage = () => {
     },
     education: [
       {
+        id: 1,
         college: "University of Example",
         degree: "Bachelor of Science in Computer Science",
         startDate: "2015-09-01",
         endDate: "2019-06-01",
         location: "Example City, EX",
-        description: "Focused on software development and data science.",
       },
       {
+        id: 2,
         college: "University of Example",
         degree: "Bachelor of Science in Computer Science",
         startDate: "2015-09-01",
         endDate: "2019-06-01",
         location: "Example City, EX",
-        description: "Focused on software development and data science.",
       },
     ],
     experience: [
       {
+        id:1,
         company: "Tech Company",
         role: "Software Engineer",
         startDate: "2019-07-01",
@@ -76,6 +77,7 @@ const BuilderPage = () => {
         ],
       },
       {
+        id:2,
         company: "Another Tech Company",
         role: "Frontend Developer",
         startDate: "2022-07-01",
@@ -90,6 +92,7 @@ const BuilderPage = () => {
     ],
     projects: [
       {
+        id:1,
         title: "Resume Builder",
         description: "A tool to create and manage resumes.",
         startDate: "2015-09-01",
@@ -103,6 +106,7 @@ const BuilderPage = () => {
         ],
       },
       {
+        id:2,
         title: "E-commerce Platform",
         description: "A full-featured e-commerce platform.",
         startDate: "2015-09-01",
@@ -160,10 +164,7 @@ const BuilderPage = () => {
             );
           }}
         </PDFDownloadLink>
-        <Editor
-          setLoading={setLoading}
-          setResumeData={setResumeData}
-        />
+        <Editor setLoading={setLoading} setResumeData={setResumeData} />
       </div>
       <div className="w-1/2 h-full relative flex items-center justify-center bg-gray-400">
         <TransformWrapper

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
@@ -8,39 +8,41 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { X } from "lucide-react";
+import { Skills } from "@/types/Resume.type";
 
-const EditSkills = ({skills, setSkills}) => {
+interface EditSkillsProps {
+  skills: Skills;
+  setSkills: Dispatch<SetStateAction<Skills>>;
+}
 
-  const [isAddSkillDialogOpen, setIsAddSkillDialogOpen] = useState(false);
-  const [isDeleteSkillDialogOpen, setIsDeleteSkillDialogOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [newSkills, setNewSkills] = useState(""); // Changed from newSkill to newSkills
-  const [selectedSkill, setSelectedSkill] = useState("");
+const EditSkills: React.FC<EditSkillsProps> = ({ skills, setSkills }) => {
+  const [isAddSkillDialogOpen, setIsAddSkillDialogOpen] = useState<boolean>(false);
+  const [isDeleteSkillDialogOpen, setIsDeleteSkillDialogOpen] = useState<boolean>(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [newSkills, setNewSkills] = useState<string>("");
+  const [selectedSkill, setSelectedSkill] = useState<string>("");
 
-  const handleAddSkill = () => {
+  const handleAddSkill = (): void => {
     setIsAddSkillDialogOpen(true);
   };
 
-  const handleDeleteSkill = (category, skill) => {
+  const handleDeleteSkill = (category: string, skill: string): void => {
     setSelectedCategory(category);
     setSelectedSkill(skill);
     setIsDeleteSkillDialogOpen(true);
   };
 
-  const handleSaveSkills = () => {
+  const handleSaveSkills = (): void => {
     if (!newSkills.trim() || !selectedCategory) return;
 
-    // Split the newSkills string by commas, trim whitespace, and remove empty strings
-    const skillsToAdd = newSkills
+    const skillsToAdd: string[] = newSkills
       .split(",")
       .map(skill => skill.trim())
       .filter(skill => skill);
 
-    setSkills((prevSkills) => ({
+    setSkills(prevSkills => ({
       ...prevSkills,
-      [selectedCategory]: [
-        ...new Set([...prevSkills[selectedCategory], ...skillsToAdd]), // Avoid duplicate skills
-      ],
+      [selectedCategory]: Array.from(new Set([...prevSkills[selectedCategory] || [], ...skillsToAdd])) // Avoid duplicate skills
     }));
 
     setNewSkills("");
@@ -48,10 +50,12 @@ const EditSkills = ({skills, setSkills}) => {
     setIsAddSkillDialogOpen(false);
   };
 
-  const handleDeleteConfirm = () => {
-    setSkills((prevSkills) => ({
+  const handleDeleteConfirm = (): void => {
+    if (!selectedCategory || !selectedSkill) return;
+
+    setSkills(prevSkills => ({
       ...prevSkills,
-      [selectedCategory]: prevSkills[selectedCategory].filter((skill) => skill !== selectedSkill),
+      [selectedCategory]: prevSkills[selectedCategory].filter(skill => skill !== selectedSkill)
     }));
 
     setSelectedCategory("");
@@ -69,11 +73,11 @@ const EditSkills = ({skills, setSkills}) => {
           </Button>
         </div>
         <div className="space-y-4">
-          {Object.keys(skills).map((category) => (
+          {Object.keys(skills).map(category => (
             <div key={category}>
               <h3 className="text-lg font-bold">{category}</h3>
               <div className="flex gap-2 flex-wrap">
-                {skills[category].map((skill) => (
+                {skills[category].map(skill => (
                   <Badge key={skill} className="flex gap-2">
                     {skill}
                     <X size="16px" onClick={() => handleDeleteSkill(category, skill)} />
@@ -104,13 +108,12 @@ const EditSkills = ({skills, setSkills}) => {
             <div className="grid gap-2">
               <Label htmlFor="category">Category</Label>
               <Select
-                id="category"
                 value={selectedCategory}
                 onValueChange={(value) => setSelectedCategory(value)}
               >
-                <SelectTrigger placeholder="Choose a category" />
+                <SelectTrigger />
                 <SelectContent>
-                  {Object.keys(skills).map((category) => (
+                  {Object.keys(skills).map(category => (
                     <SelectItem key={category} value={category}>
                       {category}
                     </SelectItem>

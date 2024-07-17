@@ -225,7 +225,7 @@ const MyDocument = ({ data }:{data:ResumeData}) => (
             <View key={index} style={styles.skillCategory} >
             <View style={{flexDirection:"row",height:"auto",flexWrap:"wrap"}} >
               <Text style={styles.skillCategoryTitle}>{category}: </Text>
-              {skills.map((skill)=>(
+              {skills.map((skill:string)=>(
                   <Text style={styles.skillItem}>{skill}, </Text>
                 ))}
                 </View>

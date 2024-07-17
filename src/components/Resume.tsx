@@ -130,7 +130,7 @@ const Resume: FC<ResumeProps> = ({data}) => {
           <div key={index}>
             <div className="flex items-center flex-wrap mb-[5.2px]">
               <span style={{fontSize:styles.normalTextFontSize}} className="leading-tight text-lg font-bold">{category}:</span>
-              {skills.map((skill, skillIndex) => (
+              {skills.map((skill:string, skillIndex:number) => (
                 <span key={skillIndex} style={{fontSize:styles.normalTextFontSize}} className="ml-[6px] font-normal">
                   {skill}
                   {skillIndex < skills.length - 1 && ","}

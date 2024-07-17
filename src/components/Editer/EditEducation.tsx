@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,14 +11,24 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { Dispatch, SetStateAction, ChangeEvent } from "react";
 import { Input } from "@/components/ui/input";
+import { Education } from "@/types/Resume.type";
 
-const EditEducation = ({educationItems, setEducationItems}) => {
-
-  const [isAddEducationDialogOpen, setIsAddEducationDialogOpen] = useState(false);
-  const [isEditEducationDialogOpen, setIsEditEducationDialogOpen] = useState(false);
-  const [isDeleteEducationDialogOpen, setIsDeleteEducationDialogOpen] = useState(false);
-  const [selectedEducationItem, setSelectedEducationItem] = useState(null);
+const EditEducation = ({
+  educationaItems,
+  setEducationaItems,
+}: {
+  educationaItems: Education[];
+  setEducationaItems: Dispatch<SetStateAction<Education[]>>;
+}) => {
+  const [isAddEducationDialogOpen, setIsAddEducationDialogOpen] =
+    useState(false);
+  const [isEditEducationDialogOpen, setIsEditEducationDialogOpen] =
+    useState(false);
+  const [isDeleteEducationDialogOpen, setIsDeleteEducationDialogOpen] =
+    useState(false);
+  const [selectedEducationItem, setSelectedEducationItem] = useState<Education | null>(null);
   const [formState, setFormState] = useState({
     college: "",
     degree: "",
@@ -27,7 +37,7 @@ const EditEducation = ({educationItems, setEducationItems}) => {
     location: "",
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormState((prevState) => ({
       ...prevState,
@@ -46,7 +56,7 @@ const EditEducation = ({educationItems, setEducationItems}) => {
     setIsAddEducationDialogOpen(true);
   };
 
-  const handleEditEducation = (item) => {
+  const handleEditEducation = (item: Education) => {
     setSelectedEducationItem(item);
     setFormState({
       college: item.college,
@@ -58,20 +68,22 @@ const EditEducation = ({educationItems, setEducationItems}) => {
     setIsEditEducationDialogOpen(true);
   };
 
-  const handleDeleteEducation = (item) => {
+  const handleDeleteEducation = (item: Education) => {
     setSelectedEducationItem(item);
     setIsDeleteEducationDialogOpen(true);
   };
 
   const handleSaveEducation = () => {
     if (selectedEducationItem) {
-      setEducationItems(
-        educationItems.map((item) =>
-          item.id === selectedEducationItem.id ? { ...formState, id: item.id } : item
+      setEducationaItems(
+        educationaItems.map((item) =>
+          item.id === selectedEducationItem.id
+            ? { ...formState, id: item.id }
+            : item
         )
       );
     } else {
-      setEducationItems([...educationItems, { ...formState, id: Date.now() }]);
+      setEducationaItems([...educationaItems, { ...formState, id: Date.now() }]);
     }
     setIsAddEducationDialogOpen(false);
     setIsEditEducationDialogOpen(false);
@@ -79,11 +91,13 @@ const EditEducation = ({educationItems, setEducationItems}) => {
   };
 
   const handleDeleteConfirm = () => {
-    setEducationItems(
-      educationItems.filter((item) => item.id !== selectedEducationItem.id)
-    );
-    setIsDeleteEducationDialogOpen(false);
-    setSelectedEducationItem(null);
+    if (selectedEducationItem) {
+      setEducationaItems(
+        educationaItems.filter((item) => item.id !== selectedEducationItem.id)
+      );
+      setIsDeleteEducationDialogOpen(false);
+      setSelectedEducationItem(null);
+    }
   };
 
   return (
@@ -96,8 +110,11 @@ const EditEducation = ({educationItems, setEducationItems}) => {
           </Button>
         </div>
         <div className="space-y-4">
-          {educationItems.map((item) => (
-            <Card key={item.id} className="flex items-center justify-between p-2">
+          {educationaItems.map((item) => (
+            <Card
+              key={item.id}
+              className="flex items-center justify-between p-2"
+            >
               <div>
                 <h3 className="text-lg font-bold">{item.college}</h3>
                 <p className="text-muted-foreground">{item.degree}</p>
@@ -185,9 +202,7 @@ const EditEducation = ({educationItems, setEducationItems}) => {
             >
               Cancel
             </Button>
-            <Button onClick={handleSaveEducation}>
-              Save
-            </Button>
+            <Button onClick={handleSaveEducation}>Save</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -254,9 +269,7 @@ const EditEducation = ({educationItems, setEducationItems}) => {
             >
               Cancel
             </Button>
-            <Button onClick={handleSaveEducation}>
-              Save
-            </Button>
+            <Button onClick={handleSaveEducation}>Save</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

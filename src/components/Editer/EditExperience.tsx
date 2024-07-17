@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState, ChangeEvent } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,20 +14,26 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"; // Import Textarea
 import { FiX } from "react-icons/fi"; // Importing 'react-icons' for the remove icon
+import { Experience } from "@/types/Resume.type";
 
-const EditExperience = ({experienceItems, setExperienceItems}) => {
-  console.log(experienceItems)
+const EditExperience = ({
+  experienceItems,
+  setExperienceItems,
+}: {
+  experienceItems: Experience[];
+  setExperienceItems: Dispatch<SetStateAction<Experience[]>>;
+}) => {
   const [isAddExperienceDialogOpen, setIsAddExperienceDialogOpen] = useState(false);
   const [isEditExperienceDialogOpen, setIsEditExperienceDialogOpen] = useState(false);
   const [isDeleteExperienceDialogOpen, setIsDeleteExperienceDialogOpen] = useState(false);
-  const [selectedExperienceItem, setSelectedExperienceItem] = useState(null);
-  const [formState, setFormState] = useState({
+  const [selectedExperienceItem, setSelectedExperienceItem] = useState<Experience | null>(null);
+  const [formState, setFormState] = useState<Omit<Experience, 'id'>>({
     role: "",
     company: "",
     startDate: "",
     endDate: "",
     location: "",
-    details: "",
+    details: [],
   });
 
   const handleAddExperience = () => {
@@ -37,12 +43,12 @@ const EditExperience = ({experienceItems, setExperienceItems}) => {
       startDate: "",
       endDate: "",
       location: "",
-      details: "",
+      details: [],
     });
     setIsAddExperienceDialogOpen(true);
   };
 
-  const handleEditExperience = (item) => {
+  const handleEditExperience = (item: Experience) => {
     setSelectedExperienceItem(item);
     setFormState({
       role: item.role,
@@ -50,25 +56,25 @@ const EditExperience = ({experienceItems, setExperienceItems}) => {
       startDate: item.startDate,
       endDate: item.endDate,
       location: item.location,
-      details: item.details.join("\n") || "", // Convert array to string with new lines
+      details: item.details, // Convert array to string with new lines if necessary
     });
     setIsEditExperienceDialogOpen(true);
   };
 
-  const handleDeleteExperience = (item) => {
+  const handleDeleteExperience = (item: Experience) => {
     setSelectedExperienceItem(item);
     setIsDeleteExperienceDialogOpen(true);
   };
 
   const handleSaveExperience = () => {
-    const newItem = {
+    const newItem: Experience = {
       id: selectedExperienceItem ? selectedExperienceItem.id : Date.now(),
       role: formState.role,
       company: formState.company,
       startDate: formState.startDate,
       endDate: formState.endDate,
       location: formState.location,
-      details: formState.details.split("\n").filter((detail) => detail.trim() !== ""), // Split by new lines and filter empty strings
+      details: formState.details.filter((detail) => detail.trim() !== ""), // Filter empty strings
     };
 
     if (selectedExperienceItem) {
@@ -85,14 +91,20 @@ const EditExperience = ({experienceItems, setExperienceItems}) => {
   };
 
   const handleDeleteConfirm = () => {
-    setExperienceItems(experienceItems.filter((item) => item.id !== selectedExperienceItem.id));
-    setIsDeleteExperienceDialogOpen(false);
-    setSelectedExperienceItem(null);
+    if (selectedExperienceItem) {
+      setExperienceItems(experienceItems.filter((item) => item.id !== selectedExperienceItem.id));
+      setIsDeleteExperienceDialogOpen(false);
+      setSelectedExperienceItem(null);
+    }
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormState((prev) => ({ ...prev, [name]: value }));
+    if (name === 'details') {
+      setFormState((prev) => ({ ...prev, [name]: value.split('\n') })); // Convert new lines to array
+    } else {
+      setFormState((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   return (
@@ -130,69 +142,68 @@ const EditExperience = ({experienceItems, setExperienceItems}) => {
           <DialogHeader>
             <DialogTitle>Add Experience</DialogTitle>
           </DialogHeader>
-          <DialogContent>
-            <div className="space-y-4">
-              <div className="grid gap-2">
-                <Label htmlFor="role">Role</Label>
-                <Input
-                  id="role"
-                  name="role"
-                  value={formState.role}
-                  placeholder="Enter role"
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="company">Company</Label>
-                <Input
-                  id="company"
-                  name="company"
-                  value={formState.company}
-                  placeholder="Enter company name"
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="startDate">Start Date</Label>
-                <Input
-                  id="startDate"
-                  name="startDate"
-                  type="text"
-                  value={formState.startDate}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="endDate">End Date</Label>
-                <Input
-                  id="endDate"
-                  name="endDate"
-                  type="text"
-                  value={formState.endDate}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="location">Location</Label>
-                <Input
-                  id="location"
-                  name="location"
-                  value={formState.location}
-                  placeholder="Enter location"
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="details">Details</Label>
-                <Textarea
-                  id="details"
-                  name="details"
-                  value={formState.details}
-                  placeholder="Enter details separated by new lines"
-                  onChange={handleInputChange}
-                />
-              </div>
+          <div className="space-y-4">
+            <div className="grid gap-2">
+              <Label htmlFor="role">Role</Label>
+              <Input
+                id="role"
+                name="role"
+                value={formState.role}
+                placeholder="Enter role"
+                onChange={handleInputChange}
+              />
             </div>
+            <div className="grid gap-2">
+              <Label htmlFor="company">Company</Label>
+              <Input
+                id="company"
+                name="company"
+                value={formState.company}
+                placeholder="Enter company name"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="startDate">Start Date</Label>
+              <Input
+                id="startDate"
+                name="startDate"
+                type="text"
+                value={formState.startDate}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="endDate">End Date</Label>
+              <Input
+                id="endDate"
+                name="endDate"
+                type="text"
+                value={formState.endDate}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="location">Location</Label>
+              <Input
+                id="location"
+                name="location"
+                value={formState.location}
+                placeholder="Enter location"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="details">Details</Label>
+              <Textarea
+                id="details"
+                name="details"
+                value={formState.details.join("\n")} // Convert array to string with new lines
+                placeholder="Enter details separated by new lines"
+                onChange={handleInputChange}
+              />
+            </div>
+          </div>
           <DialogFooter>
             <Button
               variant="outline"
@@ -206,7 +217,6 @@ const EditExperience = ({experienceItems, setExperienceItems}) => {
               Save
             </Button>
           </DialogFooter>
-          </DialogContent>
         </DialogContent>
       </Dialog>
 
@@ -216,69 +226,68 @@ const EditExperience = ({experienceItems, setExperienceItems}) => {
           <DialogHeader>
             <DialogTitle>Edit Experience</DialogTitle>
           </DialogHeader>
-          <DialogContent>
-            <div className="space-y-4">
-              <div className="grid gap-2">
-                <Label htmlFor="role">Role</Label>
-                <Input
-                  id="role"
-                  name="role"
-                  value={formState.role}
-                  placeholder="Enter role"
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="company">Company</Label>
-                <Input
-                  id="company"
-                  name="company"
-                  value={formState.company}
-                  placeholder="Enter company name"
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="startDate">Start Date</Label>
-                <Input
-                  id="startDate"
-                  name="startDate"
-                  type="text"
-                  value={formState.startDate}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="endDate">End Date</Label>
-                <Input
-                  id="endDate"
-                  name="endDate"
-                  type="text"
-                  value={formState.endDate}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="location">Location</Label>
-                <Input
-                  id="location"
-                  name="location"
-                  value={formState.location}
-                  placeholder="Enter location"
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="details">Details</Label>
-                <Textarea
-                  id="details"
-                  name="details"
-                  value={formState.details}
-                  placeholder="Enter details separated by new lines"
-                  onChange={handleInputChange}
-                />
-              </div>
+          <div className="space-y-4">
+            <div className="grid gap-2">
+              <Label htmlFor="role">Role</Label>
+              <Input
+                id="role"
+                name="role"
+                value={formState.role}
+                placeholder="Enter role"
+                onChange={handleInputChange}
+              />
             </div>
+            <div className="grid gap-2">
+              <Label htmlFor="company">Company</Label>
+              <Input
+                id="company"
+                name="company"
+                value={formState.company}
+                placeholder="Enter company name"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="startDate">Start Date</Label>
+              <Input
+                id="startDate"
+                name="startDate"
+                type="text"
+                value={formState.startDate}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="endDate">End Date</Label>
+              <Input
+                id="endDate"
+                name="endDate"
+                type="text"
+                value={formState.endDate}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="location">Location</Label>
+              <Input
+                id="location"
+                name="location"
+                value={formState.location}
+                placeholder="Enter location"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="details">Details</Label>
+              <Textarea
+                id="details"
+                name="details"
+                value={formState.details.join("\n")} // Convert array to string with new lines
+                placeholder="Enter details separated by new lines"
+                onChange={handleInputChange}
+              />
+            </div>
+          </div>
           <DialogFooter>
             <Button
               variant="outline"
@@ -292,7 +301,6 @@ const EditExperience = ({experienceItems, setExperienceItems}) => {
               Save
             </Button>
           </DialogFooter>
-          </DialogContent>
         </DialogContent>
       </Dialog>
 

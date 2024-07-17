@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,62 +12,81 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea"; // Import Textarea
+import { Textarea } from "@/components/ui/textarea";
+import { Project } from "@/types/Resume.type";
 
-const EditProjects = ({projectItems, setProjectItems}) => {
+interface EditProjectsProps {
+  projectItems: Project[];
+  setProjectItems: Dispatch<SetStateAction<Project[]>>;
+}
 
-  const [isAddProjectDialogOpen, setIsAddProjectDialogOpen] = useState(false);
-  const [isEditProjectDialogOpen, setIsEditProjectDialogOpen] = useState(false);
-  const [isDeleteProjectDialogOpen, setIsDeleteProjectDialogOpen] = useState(false);
-  const [selectedProjectItem, setSelectedProjectItem] = useState(null);
-  const [formState, setFormState] = useState({
+const EditProjects: React.FC<EditProjectsProps> = ({ projectItems, setProjectItems }) => {
+  const [isAddProjectDialogOpen, setIsAddProjectDialogOpen] = useState<boolean>(false);
+  const [isEditProjectDialogOpen, setIsEditProjectDialogOpen] = useState<boolean>(false);
+  const [isDeleteProjectDialogOpen, setIsDeleteProjectDialogOpen] = useState<boolean>(false);
+  const [selectedProjectItem, setSelectedProjectItem] = useState<Project | null>(null);
+  const [formState, setFormState] = useState<{
+    title: string;
+    description: string;
+    startDate: string;
+    endDate: string;
+    details: string;
+    technologies: string;
+    link: string;
+  }>({
     title: "",
-    company: "",
+    description: "",
     startDate: "",
     endDate: "",
     details: "",
     technologies: "",
+    link: "",
   });
 
-  const handleAddProject = () => {
+  const handleAddProject = (): void => {
     setFormState({
       title: "",
-      company: "",
+      description: "",
       startDate: "",
       endDate: "",
       details: "",
       technologies: "",
+      link: "",
     });
     setIsAddProjectDialogOpen(true);
   };
 
-  const handleEditProject = (item) => {
+  const handleEditProject = (item: Project): void => {
     setSelectedProjectItem(item);
     setFormState({
       title: item.title,
-      company: item.company,
+      description: item.description,
       startDate: item.startDate,
       endDate: item.endDate,
       details: item.details.join("\n") || "", // Convert array to string with new lines
       technologies: item.technologies.join(", ") || "", // Convert array to comma-separated string
+      link: item.link || "",
     });
     setIsEditProjectDialogOpen(true);
   };
 
-  const handleDeleteProject = (item) => {
+  const handleDeleteProject = (item: Project): void => {
     setSelectedProjectItem(item);
     setIsDeleteProjectDialogOpen(true);
   };
 
-  const handleSaveProject = () => {
-    const newItem = {
+  const handleSaveProject = (): void => {
+    if (!formState.title || !formState.description || !formState.startDate || !formState.endDate) return;
+
+    const newItem: Project = {
       id: selectedProjectItem ? selectedProjectItem.id : Date.now(),
       title: formState.title,
-      company: formState.company,
+      description: formState.description,
       startDate: formState.startDate,
       endDate: formState.endDate,
       details: formState.details.split("\n").filter((detail) => detail.trim() !== ""), // Split by new lines and filter empty strings
       technologies: formState.technologies.split(",").map((tech) => tech.trim()).filter((tech) => tech), // Convert comma-separated string to array
+      link: formState.link,
     };
 
     if (selectedProjectItem) {
@@ -83,15 +102,17 @@ const EditProjects = ({projectItems, setProjectItems}) => {
     setSelectedProjectItem(null);
   };
 
-  const handleDeleteConfirm = () => {
-    setProjectItems(
-      projectItems.filter((item) => item.id !== selectedProjectItem.id)
-    );
+  const handleDeleteConfirm = (): void => {
+    if (selectedProjectItem) {
+      setProjectItems(
+        projectItems.filter((item) => item.id !== selectedProjectItem.id)
+      );
+    }
     setIsDeleteProjectDialogOpen(false);
     setSelectedProjectItem(null);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     const { name, value } = e.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
@@ -110,7 +131,7 @@ const EditProjects = ({projectItems, setProjectItems}) => {
             <Card key={item.id} className="flex items-center justify-between p-2">
               <div>
                 <h3 className="text-lg font-bold">{item.title}</h3>
-                <p className="text-muted-foreground">{item.company}</p>
+                <p className="text-muted-foreground">{item.description}</p>
               </div>
               <div className="flex gap-2">
                 <Button
@@ -154,12 +175,12 @@ const EditProjects = ({projectItems, setProjectItems}) => {
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="company">Company</Label>
+              <Label htmlFor="description">Description</Label>
               <Input
-                id="company"
-                name="company"
-                value={formState.company}
-                placeholder="Enter company name"
+                id="description"
+                name="description"
+                value={formState.description}
+                placeholder="Enter project description"
                 onChange={handleInputChange}
               />
             </div>
@@ -200,6 +221,16 @@ const EditProjects = ({projectItems, setProjectItems}) => {
                 name="technologies"
                 value={formState.technologies}
                 placeholder="Enter technologies separated by commas"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="link">Link</Label>
+              <Input
+                id="link"
+                name="link"
+                value={formState.link}
+                placeholder="Enter project link"
                 onChange={handleInputChange}
               />
             </div>
@@ -237,17 +268,17 @@ const EditProjects = ({projectItems, setProjectItems}) => {
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="company">Company</Label>
+              <Label htmlFor="description">Description</Label>
               <Input
-                id="company"
-                name="company"
-                value={formState.company}
-                placeholder="Enter company name"
+                id="description"
+                name="description"
+                value={formState.description}
+                placeholder="Enter project description"
                 onChange={handleInputChange}
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="startDate">Start Date</Label>
+            <Label htmlFor="startDate">Start Date</Label>
               <Input
                 id="startDate"
                 name="startDate"
@@ -283,6 +314,16 @@ const EditProjects = ({projectItems, setProjectItems}) => {
                 name="technologies"
                 value={formState.technologies}
                 placeholder="Enter technologies separated by commas"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="link">Link</Label>
+              <Input
+                id="link"
+                name="link"
+                value={formState.link}
+                placeholder="Enter project link"
                 onChange={handleInputChange}
               />
             </div>
@@ -327,3 +368,4 @@ const EditProjects = ({projectItems, setProjectItems}) => {
 };
 
 export default EditProjects;
+

@@ -8,15 +8,17 @@ import EditEducation from "./Editer/EditEducation";
 import EditExperience from "./Editer/EditExperience";
 import EditProjects from "./Editer/EditProjects";
 import EditSkills from "./Editer/EditSkills";
-import { ResumeData } from "@/types/Resume.type";
+import { Basics, Education, Experience, Project, ResumeData, Skills } from "@/types/Resume.type";
 
 interface EditorProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setResumeData: Dispatch<SetStateAction<ResumeData>>;
 }
 
+
+
 const Editor: FC<EditorProps> = ({ setLoading, setResumeData }) => {
-  const [basicResumeData, setBasicResumeData] = useState({
+  const [basicResumeData, setBasicResumeData] = useState<Basics>({
     name: "",
     location: "",
     email: "",
@@ -24,10 +26,10 @@ const Editor: FC<EditorProps> = ({ setLoading, setResumeData }) => {
     linkedin: "",
     github: "",
   });
-  const [educationItems, setEducationItems] = useState([]);
-  const [experienceItems, setExperienceItems] = useState([]);
-  const [projectItems, setProjectItems] = useState([]);
-  const [skills, setSkills] = useState({
+  const [educationaItems, setEducationaItems] = useState<Education[]>([]);
+  const [experienceItems, setExperienceItems] = useState<Experience[]>([]);
+  const [projectItems, setProjectItems] = useState<Project[]>([]);
+  const [skills, setSkills] = useState<Skills>({
     Languages: [],
     Frameworks: [],
     "Developer Tools": [],
@@ -41,7 +43,7 @@ const Editor: FC<EditorProps> = ({ setLoading, setResumeData }) => {
       skills: skills,
       projects: projectItems,
       experience: experienceItems,
-      education: educationItems,
+      education: educationaItems,
       basics: basicResumeData,
     }));
   };
@@ -131,8 +133,8 @@ const Editor: FC<EditorProps> = ({ setLoading, setResumeData }) => {
 
       {/* Eudcation Section */}
       <EditEducation
-        educationItems={educationItems}
-        setEducationItems={setEducationItems}
+        educationaItems={educationaItems}
+        setEducationaItems={setEducationaItems}
       />
 
       {/* Experiance */}
