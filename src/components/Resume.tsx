@@ -19,8 +19,8 @@ interface ResumeProps {
 const Resume: FC<ResumeProps> = ({data}) => {
   return (
     <div
-      style={{ width: "21cm", height: "29.7cm",fontFamily:"IBM Plex Serif" }}
-      className={"p-[26px] bg-white text-black outline  "}
+      style={{ width: "21cm", height: "29.7cm"}}
+      className={"p-[26px] bg-white text-black outline  ibm-plex-serif"}
     >
       <header className="flex flex-col items-center mb-[13px]">
         <h1 style={{fontSize:styles.nameFontSize}} className="font-bold tracking-tighter">{data.basics.name}</h1>

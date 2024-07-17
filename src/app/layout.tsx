@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { IBM_Plex_Serif, Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const ibmPlexSerif=IBM_Plex_Serif({
+  weight:["100","200","300","400","500","600","700"],
+  subsets:["latin"],
+  variable:"--font-ibm-plex-serif"
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,11 +24,9 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <style>
-          @import
-          url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
         </style>
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={`${ibmPlexSerif.variable} ${inter.className}`}>{children}</body>
     </html>
   );
 }

@@ -7,6 +7,9 @@
     /* outline: 1px solid black; */
   }
 
+  .ibm-plex-serif{
+    font-family: var(--font-ibm-plex-serif);
+  }
   @layer base {
     :root {
       --background: 0 0% 100%;
