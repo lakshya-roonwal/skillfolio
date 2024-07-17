@@ -96,16 +96,16 @@ const Resume = ({ data }) => {
           <div key={index} className="mb-2">
             <div className="flex justify-between items-end">
               <div className="flex">
-              <span style={{fontSize:styles.itemTitleFontSize}} className="font-bold">{project.title} |</span>
-                <span style={{fontSize:styles.itemSubTitleFontSize}}  className="font-extralight italic ml-1">
+              <span style={{fontSize:styles.itemTitleFontSize}} className="leading-tight font-bold">{project.title} |</span>
+                <span style={{fontSize:styles.itemSubTitleFontSize}}  className="leading-tight font-extralight italic ml-1">
                   {project.technologies.join(", ")}
                 </span>
               </div>
-              <span style={{fontSize:styles.normalTextFontSize}} className="text-right">
+              <span style={{fontSize:styles.normalTextFontSize}} className="leading-tight text-right">
                 {project.startDate} - {project.endDate}
               </span>
             </div>
-            <ul style={{fontSize:styles.normalTextFontSize}} className="list-disc list-inside mt-2 pl-4">
+            <ul style={{fontSize:styles.normalTextFontSize}} className="list-disc list-inside mt-[2.5px] pl-4">
               {project.details.map((detail, i) => (
                 <li key={i} className="text-sm">
                   {detail}

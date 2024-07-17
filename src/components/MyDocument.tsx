@@ -145,17 +145,17 @@ const MyDocument = ({ data,setLoading }) => (
           </View>
         </View>
       </View>
-      <View style={styles.section} debug>
-        <Text style={styles.sectionTitle} debug>Education</Text>
+      <View style={styles.section} >
+        <Text style={styles.sectionTitle} >Education</Text>
         {data.education.map((edu, index) => (
-          <View key={index} style={styles.subsection} debug>
-            <View style={styles.dateLocation} debug>
+          <View key={index} style={styles.subsection} >
+            <View style={styles.dateLocation} >
               <Text style={styles.itemTitle}>{edu.college}</Text>
               <Text style={[styles.dateLocation, styles.rightAlign]}>
                 {edu.startDate} - {edu.endDate}
               </Text>
             </View>
-            <View style={styles.dateLocation} debug>
+            <View style={styles.dateLocation} >
               <Text style={styles.itemSubtitle}>{edu.degree}</Text>
               <Text style={[styles.itemSubtitle, styles.rightAlign]}>
                 {edu.location}
@@ -168,20 +168,20 @@ const MyDocument = ({ data,setLoading }) => (
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Experience</Text>
         {data.experience.map((exp, index) => (
-          <View key={index} style={styles.subsection} debug>
-            <View style={styles.dateLocation} debug>
+          <View key={index} style={styles.subsection} >
+            <View style={styles.dateLocation} >
               <Text style={styles.itemTitle}>{exp.role}</Text>
               <Text style={[styles.dateLocation, styles.rightAlign]}>
                 {exp.startDate} - {exp.endDate}
               </Text>
             </View>
-            <View style={styles.dateLocation} debug>
+            <View style={styles.dateLocation} >
               <Text style={styles.itemSubtitle}>{exp.company}</Text>
               <Text style={[styles.itemSubtitle, styles.rightAlign]}>
                 {exp.location}
               </Text>
             </View>
-            <View style={styles.itemDetails} debug>
+            <View style={styles.itemDetails} >
               {exp.details.map((detail, i) => (
                 <Text key={i} style={styles.bulletPoint}>
                   • {detail}
@@ -192,10 +192,10 @@ const MyDocument = ({ data,setLoading }) => (
         ))}
       </View>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Projects</Text>
+      <View style={styles.section} debug>
+        <Text style={styles.sectionTitle} debug>Projects</Text>
         {data.projects.map((project, index) => (
-          <View key={index} style={styles.subsection}>
+          <View key={index} style={styles.subsection} debug>
             <View style={styles.dateLocation}>
               <View style={{ display: "flex", flexDirection: "row" }}>
                 <Text style={styles.itemTitle}>{project.title} | </Text>
