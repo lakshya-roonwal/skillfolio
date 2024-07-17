@@ -192,10 +192,10 @@ const MyDocument = ({ data,setLoading }) => (
         ))}
       </View>
 
-      <View style={styles.section} debug>
-        <Text style={styles.sectionTitle} debug>Projects</Text>
+      <View style={styles.section} >
+        <Text style={styles.sectionTitle} >Projects</Text>
         {data.projects.map((project, index) => (
-          <View key={index} style={styles.subsection} debug>
+          <View key={index} style={styles.subsection} >
             <View style={styles.dateLocation}>
               <View style={{ display: "flex", flexDirection: "row" }}>
                 <Text style={styles.itemTitle}>{project.title} | </Text>
@@ -216,12 +216,12 @@ const MyDocument = ({ data,setLoading }) => (
         ))}
       </View>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Technical Skills</Text>
-        <View style={styles.skillsContainer}>
+      <View style={styles.section} debug>
+        <Text style={styles.sectionTitle} >Technical Skills</Text>
+        <View style={styles.skillsContainer} >
           {Object.entries(data.skills).map(([category, skills], index) => (
-            <View key={index} style={styles.skillCategory}>
-            <View style={{flexDirection:"row",height:"auto",flexWrap:"wrap"}}>
+            <View key={index} style={styles.skillCategory} debug>
+            <View style={{flexDirection:"row",height:"auto",flexWrap:"wrap"}} debug>
               <Text style={styles.skillCategoryTitle}>{category}: </Text>
               {skills.map((skill)=>(
                   <Text style={styles.skillItem}>{skill}, </Text>

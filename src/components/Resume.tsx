@@ -122,8 +122,8 @@ const Resume = ({ data }) => {
         </h2>
         {Object.entries(data.skills).map(([category, skills], index) => (
           <div key={index}>
-            <div className="flex items-center flex-wrap">
-              <span style={{fontSize:styles.normalTextFontSize}} className="text-lg font-bold">{category}:</span>
+            <div className="flex items-center flex-wrap mb-[5.2px]">
+              <span style={{fontSize:styles.normalTextFontSize}} className="leading-tight text-lg font-bold">{category}:</span>
               {skills.map((skill, skillIndex) => (
                 <span key={skillIndex} style={{fontSize:styles.normalTextFontSize}} className="ml-1">
                   {skill}
