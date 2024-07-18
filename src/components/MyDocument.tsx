@@ -226,7 +226,7 @@ const MyDocument = ({ data }:{data:ResumeData}) => (
             <View style={{flexDirection:"row",height:"auto",flexWrap:"wrap"}} >
               <Text style={styles.skillCategoryTitle}>{category}: </Text>
               {skills.map((skill:string)=>(
-                  <Text style={styles.skillItem}>{skill}, </Text>
+                  <Text key={skill} style={styles.skillItem}>{skill}, </Text>
                 ))}
                 </View>
               {/* <Text style={styles.skillItem}>{skills.join(", ")}</Text> */}
