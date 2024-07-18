@@ -1,8 +1,8 @@
-# Resume Creator
+# Skillfolio
 
 ## Overview
 
-**Resume Creator** is a web application designed to help users create and manage their resumes effortlessly. With features for adding, editing, and deleting resume sections such as experience, projects, and skills, this tool aims to streamline the resume creation process for developers and professionals.
+**Skillfolio** is a web application designed to help users create and manage their resumes effortlessly. With features for adding, editing, and deleting resume sections such as experience, projects, and skills, this tool aims to streamline the resume creation process for developers and professionals.
 
 ## Features
 
@@ -19,7 +19,7 @@
 
 ## Getting Started
 
-To get started with the Resume Creator, follow these steps:
+To get started with the Skillfolio, follow these steps:
 
 ### Prerequisites
 
