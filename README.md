@@ -30,13 +30,13 @@ Make sure you have [Node.js](https://nodejs.org/) and [pnpm](https://pnpm.io/) i
 1. Clone the repository:
     
 ```bash
-git clone https://github.com/lakshya-roonwal/resume-creator.git
+git clone https://github.com/lakshya-roonwal/skillfolio.git
 ```
     
 2. Navigate to the project directory:
     
 ```bash
-cd resume-creator
+cd skillfolio
 ```
     
 3. Install the dependencies:
