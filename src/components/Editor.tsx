@@ -9,15 +9,18 @@ import EditExperience from "./Editer/EditExperience";
 import EditProjects from "./Editer/EditProjects";
 import EditSkills from "./Editer/EditSkills";
 import { Basics, Education, Experience, Project, ResumeData, Skills } from "@/types/Resume.type";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import MyDocument from "./MyDocument";
 
 interface EditorProps {
+  resumeData:ResumeData;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setResumeData: Dispatch<SetStateAction<ResumeData>>;
 }
 
 
 
-const Editor: FC<EditorProps> = ({ setLoading, setResumeData }) => {
+const Editor: FC<EditorProps> = ({ resumeData,setLoading, setResumeData }) => {
   const [basicResumeData, setBasicResumeData] = useState<Basics>({
     name: "",
     location: "",
@@ -56,9 +59,26 @@ const Editor: FC<EditorProps> = ({ setLoading, setResumeData }) => {
 
   return (
     <ScrollArea className="h-full">
-      <div className="flex h-auto w-full justify-between px-6">
+      <div className="flex h-auto w-full justify-between px-6 py-2">
         <h2 className="text-2xl font-bold">Your Resume</h2>
+        <div className="flex gap-2">
+        <PDFDownloadLink
+          document={<MyDocument data={resumeData} />}
+          fileName="resume.pdf"
+        >
+          {({ blob, url, loading, error }) => {
+            if (loading) {
+              setLoading(true);
+              return "Generating document...";
+            }
+            setLoading(false);
+            return (
+              <Button>Download PDF</Button>
+            );
+          }}
+        </PDFDownloadLink>
         <Button onClick={handleSaveResumeData}>Save</Button>
+        </div>
       </div>
 
       <div className="flex h-auto w-full flex-col md:flex-row">

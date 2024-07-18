@@ -7,7 +7,6 @@ import {
   TransformComponent,
   useControls,
 } from "react-zoom-pan-pinch";
-import MyDocument from "./MyDocument";
 import Spinner from "./Spinner";
 import Resume from "./Resume";
 import { Button } from "./ui/button";
@@ -147,24 +146,7 @@ const BuilderPage = () => {
   return (
     <div className="w-full h-screen flex">
       <div className="w-1/2 h-full bg-gray-200">
-        <PDFDownloadLink
-          document={<MyDocument data={resumeData} />}
-          fileName="resume.pdf"
-        >
-          {({ blob, url, loading, error }) => {
-            if (loading) {
-              setLoading(true);
-              return "Generating document...";
-            }
-            setLoading(false);
-            return (
-              <button className="p-2 bg-blue-500 text-white rounded">
-                Download PDF
-              </button>
-            );
-          }}
-        </PDFDownloadLink>
-        <Editor setLoading={setLoading} setResumeData={setResumeData} />
+        <Editor resumeData={resumeData} setLoading={setLoading} setResumeData={setResumeData} />
       </div>
       <div className="w-1/2 h-full relative flex items-center justify-center bg-gray-400">
         <TransformWrapper
