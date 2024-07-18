@@ -33,18 +33,21 @@ const EditSkills: React.FC<EditSkillsProps> = ({ skills, setSkills }) => {
   };
 
   const handleSaveSkills = (): void => {
-    if (!newSkills.trim() || !selectedCategory) return;
-
+    if (!newSkills.trim()) return;
+    
+    // Use the first category or "Other" if there is no selection
+    const categoryToUse = selectedCategory || Object.keys(skills)[0] || "Other"; 
+    
     const skillsToAdd: string[] = newSkills
       .split(",")
       .map(skill => skill.trim())
       .filter(skill => skill);
-
+  
     setSkills(prevSkills => ({
       ...prevSkills,
-      [selectedCategory]: Array.from(new Set([...prevSkills[selectedCategory] || [], ...skillsToAdd])) // Avoid duplicate skills
+      [categoryToUse]: Array.from(new Set([...prevSkills[categoryToUse] || [], ...skillsToAdd]))
     }));
-
+  
     setNewSkills("");
     setSelectedCategory("");
     setIsAddSkillDialogOpen(false);
@@ -111,16 +114,22 @@ const EditSkills: React.FC<EditSkillsProps> = ({ skills, setSkills }) => {
                 value={selectedCategory}
                 onValueChange={(value) => setSelectedCategory(value)}
               >
-                <SelectTrigger />
-                <SelectContent>
-                  {Object.keys(skills).map(category => (
-                    <SelectItem key={category} value={category}>
-                      {category}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+              <SelectTrigger>
+                {selectedCategory || "Select a category"}
+              </SelectTrigger>
+              <SelectContent>
+                {Object.keys(skills).length > 0 ? (
+                  Object.keys(skills).map(category => (
+                  <SelectItem key={category} value={category}>
+                    {category}
+                  </SelectItem>
+                ))
+              ) : (
+                <SelectItem value="default" disabled>No categories available</SelectItem>
+               )}
+              </SelectContent>
+            </Select>
+          </div>
           </div>
           <DialogFooter>
             <Button
