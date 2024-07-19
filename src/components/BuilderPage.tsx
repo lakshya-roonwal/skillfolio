@@ -11,6 +11,21 @@ import Spinner from "./Spinner";
 import Resume from "./Resume";
 import { Button } from "./ui/button";
 import { ResumeData } from "@/types/Resume.type";
+import Image from "next/image";
+
+
+const Controls = () => {
+  const { zoomIn, zoomOut, resetTransform } = useControls();
+
+  return (
+    <div className="tools inline-block">
+    <button className="p-2 text-white rounded" onClick={() => zoomIn()}><Image src={"/images/zoomin.png"} height={10} width={30} title="Zoom In" alt="zoom in"/></button>
+      <button className="p-2 text-white rounded" onClick={() => zoomOut()}><Image src={"/images/zoomout.png"} height={10} width={30} title="Zoom Out" alt="zoom out"/></button>
+      <button className="p-2 text-white rounded" onClick={() => resetTransform()}><Image src={"/images/reset.png"} height={10} width={32}  title="Reset" alt="reset"/></button>
+    </div>
+  );
+};
+
 
 const BuilderPage = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -162,7 +177,14 @@ const BuilderPage = () => {
             contentClass="grid items-start justify-start pointer-events-none"
           >
             <Resume data={resumeData} />
+
+          
           </TransformComponent>
+          <div className="absolute bottom-3 border rounded-xl bg-white">
+            <Controls/>
+            {/* <PdfDownload/> */}
+             
+          </div>
         </TransformWrapper>
       </div>
     </div>
