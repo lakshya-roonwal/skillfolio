@@ -111,11 +111,12 @@ const EditSkills: React.FC<EditSkillsProps> = ({ skills, setSkills }) => {
             <div className="grid gap-2">
               <Label htmlFor="category">Category</Label>
               <Select
+              defaultValue="Languages"
                 value={selectedCategory}
                 onValueChange={(value) => setSelectedCategory(value)}
               >
               <SelectTrigger>
-                {selectedCategory || "Select a category"}
+                {selectedCategory || "Languages"}
               </SelectTrigger>
               <SelectContent>
                 {Object.keys(skills).length > 0 ? (
