@@ -1,5 +1,6 @@
 "use client";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import { ZoomIn,ZoomOut,RotateCcw } from 'lucide-react';
 import { useState } from "react";
 import Editor from "./Editor";
 import {
@@ -19,9 +20,9 @@ const Controls = () => {
 
   return (
     <div className="tools inline-block">
-    <button className="p-2 text-white rounded" onClick={() => zoomIn()}><Image src={"/images/zoomin.png"} height={10} width={30} title="Zoom In" alt="zoom in"/></button>
-      <button className="p-2 text-white rounded" onClick={() => zoomOut()}><Image src={"/images/zoomout.png"} height={10} width={30} title="Zoom Out" alt="zoom out"/></button>
-      <button className="p-2 text-white rounded" onClick={() => resetTransform()}><Image src={"/images/reset.png"} height={10} width={32}  title="Reset" alt="reset"/></button>
+    <button className="p-2 rounded" onClick={() => zoomIn()}><ZoomIn size={32}/></button>
+      <button className="p-2 rounded" onClick={() => zoomOut()}><ZoomOut size={32}/></button>
+      <button className="p-2 rounded" onClick={() => resetTransform()}><RotateCcw size={32}/></button>
     </div>
   );
 };
