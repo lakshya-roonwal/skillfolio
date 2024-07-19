@@ -166,12 +166,12 @@ const BuilderPage = () => {
       </div>
       <div className="w-1/2 h-full relative flex items-center justify-center bg-gray-400">
         <TransformWrapper
-          maxScale={2}
-          minScale={0.4}
-          initialPositionX={100}
+          maxScale={1.5}
+          minScale={0.7}
+          initialPositionX={30}
           initialPositionY={15}
           initialScale={0.72}
-          limitToBounds={false}
+          limitToBounds={true}
         >
           <TransformComponent
             wrapperClass="w-full !h-screen"
