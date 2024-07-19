@@ -140,7 +140,6 @@ const MyDocument = ({ data }:{data:ResumeData}) => (
             </Link>
           </View>
           <View style={styles.contactItem}>
-            <Image style={styles.icon} src="/assets/icons/github.png" />
             <Link style={styles.contactText} src={data.basics.github}>
               GitHub
             </Link>

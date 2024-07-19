@@ -11,6 +11,7 @@ import EditSkills from "./Editer/EditSkills";
 import { Basics, Education, Experience, Project, ResumeData, Skills } from "@/types/Resume.type";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import MyDocument from "./MyDocument";
+import Spinner from "./Spinner";
 
 interface EditorProps {
   resumeData:ResumeData;
@@ -69,7 +70,7 @@ const Editor: FC<EditorProps> = ({ resumeData,setLoading, setResumeData }) => {
           {({ blob, url, loading, error }) => {
             if (loading) {
               setLoading(true);
-              return "Generating document...";
+              return (<Button disabled>Download PDF <Spinner width={16} height={16}/></Button>);
             }
             setLoading(false);
             return (
