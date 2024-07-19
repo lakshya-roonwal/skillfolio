@@ -180,10 +180,8 @@ const BuilderPage = () => {
 
           
           </TransformComponent>
-          <div className="absolute bottom-3 border rounded-xl bg-white">
+          <div className="absolute bottom-16 border rounded-xl bg-white">
             <Controls/>
-            {/* <PdfDownload/> */}
-             
           </div>
         </TransformWrapper>
       </div>
