@@ -1,5 +1,6 @@
 "use client";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import { ZoomIn,ZoomOut,RotateCcw } from 'lucide-react';
 import { useState } from "react";
 import Editor from "./Editor";
 import {
@@ -11,6 +12,21 @@ import Spinner from "./Spinner";
 import Resume from "./Resume";
 import { Button } from "./ui/button";
 import { ResumeData } from "@/types/Resume.type";
+import Image from "next/image";
+
+
+const Controls = () => {
+  const { zoomIn, zoomOut, resetTransform } = useControls();
+
+  return (
+    <div className="tools inline-block">
+    <button className="p-2 rounded" onClick={() => zoomIn()}><ZoomIn size={32}/></button>
+      <button className="p-2 rounded" onClick={() => zoomOut()}><ZoomOut size={32}/></button>
+      <button className="p-2 rounded" onClick={() => resetTransform()}><RotateCcw size={32}/></button>
+    </div>
+  );
+};
+
 
 const BuilderPage = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -150,19 +166,24 @@ const BuilderPage = () => {
       </div>
       <div className="w-1/2 h-full relative flex items-center justify-center bg-gray-400">
         <TransformWrapper
-          maxScale={2}
-          minScale={0.4}
-          initialPositionX={100}
+          maxScale={1.5}
+          minScale={0.7}
+          initialPositionX={30}
           initialPositionY={15}
           initialScale={0.72}
-          limitToBounds={false}
+          limitToBounds={true}
         >
           <TransformComponent
             wrapperClass="w-full !h-screen"
             contentClass="grid items-start justify-start pointer-events-none"
           >
             <Resume data={resumeData} />
+
+          
           </TransformComponent>
+          <div className="absolute bottom-16 border rounded-xl bg-white">
+            <Controls/>
+          </div>
         </TransformWrapper>
       </div>
     </div>
