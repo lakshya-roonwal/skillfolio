@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Project } from "@/types/Resume.type";
+import { Pencil, Trash2 } from "lucide-react";
 
 interface EditProjectsProps {
   projectItems: Project[];
@@ -27,7 +28,6 @@ const EditProjects: React.FC<EditProjectsProps> = ({ projectItems, setProjectIte
   const [selectedProjectItem, setSelectedProjectItem] = useState<Project | null>(null);
   const [formState, setFormState] = useState<{
     title: string;
-    description: string;
     startDate: string;
     endDate: string;
     details: string;
@@ -35,7 +35,6 @@ const EditProjects: React.FC<EditProjectsProps> = ({ projectItems, setProjectIte
     link: string;
   }>({
     title: "",
-    description: "",
     startDate: "",
     endDate: "",
     details: "",
@@ -46,7 +45,6 @@ const EditProjects: React.FC<EditProjectsProps> = ({ projectItems, setProjectIte
   const handleAddProject = (): void => {
     setFormState({
       title: "",
-      description: "",
       startDate: "",
       endDate: "",
       details: "",
@@ -60,7 +58,6 @@ const EditProjects: React.FC<EditProjectsProps> = ({ projectItems, setProjectIte
     setSelectedProjectItem(item);
     setFormState({
       title: item.title,
-      description: item.description,
       startDate: item.startDate,
       endDate: item.endDate,
       details: item.details.join("\n") || "", // Convert array to string with new lines
@@ -136,17 +133,17 @@ const EditProjects: React.FC<EditProjectsProps> = ({ projectItems, setProjectIte
               <div className="flex gap-2">
                 <Button
                   variant="outline"
-                  size="sm"
+                  size="icon"
                   onClick={() => handleEditProject(item)}
                 >
-                  Edit
+                  <Pencil/>
                 </Button>
                 <Button
                   variant="destructive"
-                  size="sm"
+                  size="icon"
                   onClick={() => handleDeleteProject(item)}
                 >
-                  Delete
+                  <Trash2/>
                 </Button>
               </div>
             </Card>
@@ -171,16 +168,6 @@ const EditProjects: React.FC<EditProjectsProps> = ({ projectItems, setProjectIte
                 name="title"
                 value={formState.title}
                 placeholder="Enter project title"
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="description">Description</Label>
-              <Input
-                id="description"
-                name="description"
-                value={formState.description}
-                placeholder="Enter project description"
                 onChange={handleInputChange}
               />
             </div>
@@ -264,16 +251,6 @@ const EditProjects: React.FC<EditProjectsProps> = ({ projectItems, setProjectIte
                 name="title"
                 value={formState.title}
                 placeholder="Enter project title"
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="description">Description</Label>
-              <Input
-                id="description"
-                name="description"
-                value={formState.description}
-                placeholder="Enter project description"
                 onChange={handleInputChange}
               />
             </div>

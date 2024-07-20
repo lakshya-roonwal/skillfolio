@@ -11,6 +11,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { Pencil,Trash2 } from 'lucide-react';
 import { Dispatch, SetStateAction, ChangeEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Education } from "@/types/Resume.type";
@@ -122,17 +123,17 @@ const EditEducation = ({
               <div className="flex gap-2">
                 <Button
                   variant="outline"
-                  size="sm"
+                  size="icon"
                   onClick={() => handleEditEducation(item)}
                 >
-                  Edit
+                  <Pencil/>
                 </Button>
                 <Button
                   variant="destructive"
-                  size="sm"
+                  size="icon"
                   onClick={() => handleDeleteEducation(item)}
                 >
-                  Delete
+                  <Trash2/>
                 </Button>
               </div>
             </Card>

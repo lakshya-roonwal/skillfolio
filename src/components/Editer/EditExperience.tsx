@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"; // Import Textarea
 import { FiX } from "react-icons/fi"; // Importing 'react-icons' for the remove icon
 import { Experience } from "@/types/Resume.type";
+import { Pencil, Trash2 } from "lucide-react";
 
 const EditExperience = ({
   experienceItems,
@@ -124,11 +125,11 @@ const EditExperience = ({
                 <p className="text-muted-foreground">{item.company}</p>
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={() => handleEditExperience(item)}>
-                  Edit
+                <Button variant="outline" size="icon" onClick={() => handleEditExperience(item)}>
+                  <Pencil/>
                 </Button>
-                <Button variant="destructive" size="sm" onClick={() => handleDeleteExperience(item)}>
-                  Delete
+                <Button variant="destructive" size="icon" onClick={() => handleDeleteExperience(item)}>
+                  <Trash2/>
                 </Button>
               </div>
             </Card>
