@@ -20,9 +20,9 @@ const Controls = () => {
 
   return (
     <div className="tools inline-block">
-    <button className="p-2 rounded" onClick={() => zoomIn()}><ZoomIn size={32}/></button>
-      <button className="p-2 rounded" onClick={() => zoomOut()}><ZoomOut size={32}/></button>
-      <button className="p-2 rounded" onClick={() => resetTransform()}><RotateCcw size={32}/></button>
+    <button className="p-2 rounded" onClick={() => zoomIn()}><ZoomIn size={24}/></button>
+      <button className="p-2 rounded" onClick={() => zoomOut()}><ZoomOut size={24}/></button>
+      <button className="p-2 rounded" onClick={() => resetTransform()}><RotateCcw size={24}/></button>
     </div>
   );
 };
