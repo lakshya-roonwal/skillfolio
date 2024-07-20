@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@next/swc-win32-ia32-msvc':
+        specifier: ^14.2.5
+        version: 14.2.5
       '@radix-ui/react-alert-dialog':
         specifier: ^1.1.1
         version: 1.1.1(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -213,6 +216,12 @@ packages:
 
   '@next/swc-win32-ia32-msvc@14.2.4':
     resolution: {integrity: sha512-twrmN753hjXRdcrZmZttb/m5xaCBFa48Dt3FbeEItpJArxriYDunWxJn+QFXdJ3hPkm4u7CKxncVvnmgQMY1ag==}
+    engines: {node: '>= 10'}
+    cpu: [ia32]
+    os: [win32]
+
+  '@next/swc-win32-ia32-msvc@14.2.5':
+    resolution: {integrity: sha512-Igh9ZlxwvCDsu6438FXlQTHlRno4gFpJzqPjSIBZooD22tKeI4fE/YMRoHVJHmrQ2P5YL1DoZ0qaOKkbeFWeMg==}
     engines: {node: '>= 10'}
     cpu: [ia32]
     os: [win32]
@@ -2286,6 +2295,8 @@ snapshots:
 
   '@next/swc-win32-ia32-msvc@14.2.4':
     optional: true
+
+  '@next/swc-win32-ia32-msvc@14.2.5': {}
 
   '@next/swc-win32-x64-msvc@14.2.4':
     optional: true
